@@ -27,6 +27,10 @@
       "destination": "/frontend/vite.svg"
     },
     {
+      "source": "/(.*)\\.jpeg",
+      "destination": "/frontend/$1.jpeg"
+    },
+    {
       "source": "/(.*)",
       "destination": "/frontend/index.html"
     }
