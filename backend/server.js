@@ -53,169 +53,167 @@ app.use((err, req, res, next) => {
   });
 });
 
-// Start server and connect DB
-async function startServer() {
-  // Connect to database
-  await db.connect();
-  
-  // Seed default Admin if no users exist
-  try {
-    const userCount = await db.User.countDocuments({});
-    if (userCount === 0) {
-      console.log('🔄 No users found in database. Bootstrapping default user account for Nikhil...');
-      
-      // 1. Seed Father
-      const father = await db.Member.create({
-        fullName: 'Nageswararao',
-        relation: 'Father',
-        gender: 'Male',
-        dateOfBirth: '1978-10-24',
-        phoneNumber: '9848022338',
-        aadhaarNumber: '555566667777',
-        address: 'Nageswararao House, Hyderabad',
-        occupation: 'Business Owner',
-        maritalStatus: 'Married',
-        profilePhoto: null
-      });
+// Connect to database and seed before exporting app
+await db.connect();
 
-      // 2. Seed Mother (Swarna Kumari)
-      const mother = await db.Member.create({
-        fullName: 'Swarna Kumari',
-        relation: 'Mother',
-        gender: 'Female',
-        dateOfBirth: '1982-08-22',
-        phoneNumber: '9848022339',
-        aadhaarNumber: '555566668888',
-        address: 'Nageswararao House, Hyderabad',
-        occupation: 'Homemaker',
-        maritalStatus: 'Married',
-        profilePhoto: null,
-        spouse: father._id
-      });
+// Seed default Admin if no users exist
+try {
+  const userCount = await db.User.countDocuments({});
+  if (userCount === 0) {
+    console.log('🔄 No users found in database. Bootstrapping default user account for Nikhil...');
+    
+    // 1. Seed Father
+    const father = await db.Member.create({
+      fullName: 'Nageswararao',
+      relation: 'Father',
+      gender: 'Male',
+      dateOfBirth: '1978-10-24',
+      phoneNumber: '9848022338',
+      aadhaarNumber: '555566667777',
+      address: 'Nageswararao House, Hyderabad',
+      occupation: 'Business Owner',
+      maritalStatus: 'Married',
+      profilePhoto: null
+    });
 
-      // Link father spouse back
-      father.spouse = mother._id;
-      await father.save();
+    // 2. Seed Mother (Swarna Kumari)
+    const mother = await db.Member.create({
+      fullName: 'Swarna Kumari',
+      relation: 'Mother',
+      gender: 'Female',
+      dateOfBirth: '1982-08-22',
+      phoneNumber: '9848022339',
+      aadhaarNumber: '555566668888',
+      address: 'Nageswararao House, Hyderabad',
+      occupation: 'Homemaker',
+      maritalStatus: 'Married',
+      profilePhoto: null,
+      spouse: father._id
+    });
 
-      // 3. Seed Sister (Nikhitha)
-      const sister = await db.Member.create({
-        fullName: 'Nikhitha',
-        relation: 'Sister',
-        gender: 'Female',
-        dateOfBirth: '2005-03-28',
-        phoneNumber: '9966554433',
-        aadhaarNumber: '555566669999',
-        address: 'Nageswararao House, Hyderabad',
-        occupation: 'Software Engineer',
-        maritalStatus: 'Single',
-        father: father._id,
-        mother: mother._id,
-        profilePhoto: null
-      });
+    // Link father spouse back
+    father.spouse = mother._id;
+    await father.save();
 
-      // 4. Seed Brother (Praveen)
-      const brother = await db.Member.create({
-        fullName: 'Praveen',
-        relation: 'Brother',
-        gender: 'Male',
-        dateOfBirth: '2008-07-18',
-        phoneNumber: '8877665544',
-        aadhaarNumber: '555566661111',
-        address: 'Nageswararao House, Hyderabad',
-        occupation: 'Student',
-        maritalStatus: 'Single',
-        father: father._id,
-        mother: mother._id,
-        profilePhoto: null
-      });
+    // 3. Seed Sister (Nikhitha)
+    const sister = await db.Member.create({
+      fullName: 'Nikhitha',
+      relation: 'Sister',
+      gender: 'Female',
+      dateOfBirth: '2005-03-28',
+      phoneNumber: '9966554433',
+      aadhaarNumber: '555566669999',
+      address: 'Nageswararao House, Hyderabad',
+      occupation: 'Software Engineer',
+      maritalStatus: 'Single',
+      father: father._id,
+      mother: mother._id,
+      profilePhoto: null
+    });
 
-      // 5. Seed Nikhil (Self)
-      const nikhilMember = await db.Member.create({
-        fullName: 'Nikhil',
-        relation: 'Self',
-        gender: 'Male',
-        dateOfBirth: '2003-01-24',
-        phoneNumber: '9000111222',
-        aadhaarNumber: '555566660000',
-        address: 'Nageswararao House, Hyderabad',
-        occupation: 'Software Developer',
-        maritalStatus: 'Single',
-        father: father._id,
-        mother: mother._id,
-        profilePhoto: null
-      });
+    // 4. Seed Brother (Praveen)
+    const brother = await db.Member.create({
+      fullName: 'Praveen',
+      relation: 'Brother',
+      gender: 'Male',
+      dateOfBirth: '2008-07-18',
+      phoneNumber: '8877665544',
+      aadhaarNumber: '555566661111',
+      address: 'Nageswararao House, Hyderabad',
+      occupation: 'Student',
+      maritalStatus: 'Single',
+      father: father._id,
+      mother: mother._id,
+      profilePhoto: null
+    });
 
-      // Encrypt Aadhaar numbers (using plain pass-through) and link relationships sequentially
-      const { encrypt } = await import('./utils/encryption.js');
+    // 5. Seed Nikhil (Self)
+    const nikhilMember = await db.Member.create({
+      fullName: 'Nikhil',
+      relation: 'Self',
+      gender: 'Male',
+      dateOfBirth: '2003-01-24',
+      phoneNumber: '9000111222',
+      aadhaarNumber: '555566660000',
+      address: 'Nageswararao House, Hyderabad',
+      occupation: 'Software Developer',
+      maritalStatus: 'Single',
+      father: father._id,
+      mother: mother._id,
+      profilePhoto: null
+    });
 
-      father.aadhaarNumber = encrypt('555566667777');
-      father.children = [sister._id, brother._id, nikhilMember._id];
-      await father.save();
+    // Encrypt Aadhaar numbers (using plain pass-through) and link relationships sequentially
+    const { encrypt } = await import('./utils/encryption.js');
 
-      mother.aadhaarNumber = encrypt('555566668888');
-      mother.children = [sister._id, brother._id, nikhilMember._id];
-      await mother.save();
+    father.aadhaarNumber = encrypt('555566667777');
+    father.children = [sister._id, brother._id, nikhilMember._id];
+    await father.save();
 
-      sister.aadhaarNumber = encrypt('555566669999');
-      await sister.save();
+    mother.aadhaarNumber = encrypt('555566668888');
+    mother.children = [sister._id, brother._id, nikhilMember._id];
+    await mother.save();
 
-      brother.aadhaarNumber = encrypt('555566661111');
-      await brother.save();
+    sister.aadhaarNumber = encrypt('555566669999');
+    await sister.save();
 
-      nikhilMember.aadhaarNumber = encrypt('555566660000');
-      await nikhilMember.save();
+    brother.aadhaarNumber = encrypt('555566661111');
+    await brother.save();
 
-      // Seed User Account: nikhil
-      await db.User.create({
-        username: 'nikhil',
-        password: 'nikhil123',
-        role: 'Admin',
-        memberProfile: nikhilMember._id
-      });
+    nikhilMember.aadhaarNumber = encrypt('555566660000');
+    await nikhilMember.save();
 
-      // Seed User Account: nageswararao
-      await db.User.create({
-        username: 'nageswararao',
-        password: 'nageswararao123',
-        role: 'Admin',
-        memberProfile: father._id
-      });
+    // Seed User Account: nikhil
+    await db.User.create({
+      username: 'nikhil',
+      password: 'nikhil123',
+      role: 'Admin',
+      memberProfile: nikhilMember._id
+    });
 
-      // Seed User Account: swarnakumari
-      await db.User.create({
-        username: 'swarnakumari',
-        password: 'swarnakumari123',
-        role: 'Admin',
-        memberProfile: mother._id
-      });
+    // Seed User Account: nageswararao
+    await db.User.create({
+      username: 'nageswararao',
+      password: 'nageswararao123',
+      role: 'Admin',
+      memberProfile: father._id
+    });
 
-      // Seed User Account: nikhitha
-      await db.User.create({
-        username: 'nikhitha',
-        password: 'nikhitha123',
-        role: 'Admin',
-        memberProfile: sister._id
-      });
+    // Seed User Account: swarnakumari
+    await db.User.create({
+      username: 'swarnakumari',
+      password: 'swarnakumari123',
+      role: 'Admin',
+      memberProfile: mother._id
+    });
 
-      // Seed User Account: praveen
-      await db.User.create({
-        username: 'praveen',
-        password: 'praveen123',
-        role: 'Admin',
-        memberProfile: brother._id
-      });
-      
-      console.log('📌 Family login accounts seeded successfully.');
-    }
-  } catch (seedError) {
-    console.error('Error seeding default user:', seedError.message);
+    // Seed User Account: nikhitha
+    await db.User.create({
+      username: 'nikhitha',
+      password: 'nikhitha123',
+      role: 'Admin',
+      memberProfile: sister._id
+    });
+
+    // Seed User Account: praveen
+    await db.User.create({
+      username: 'praveen',
+      password: 'praveen123',
+      role: 'Admin',
+      memberProfile: brother._id
+    });
+    
+    console.log('📌 Family login accounts seeded successfully.');
   }
+} catch (seedError) {
+  console.error('Error seeding default user:', seedError.message);
+}
 
+if (process.env.NODE_ENV !== 'production') {
   app.listen(PORT, () => {
     console.log(`🚀 Server running on port ${PORT}`);
     console.log(`📡 Health Check: http://localhost:${PORT}/api/health`);
   });
 }
 
-startServer();
 export default app;
