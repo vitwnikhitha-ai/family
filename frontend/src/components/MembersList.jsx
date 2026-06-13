@@ -23,6 +23,7 @@ import {
 } from 'lucide-react';
 import { useAuth, API_URL } from '../context/AuthContext';
 import MemberProfile from './MemberProfile';
+import { calculateRelation } from '../utils/relationCalculator';
 import getProfileImage from '../utils/getProfileImage';
 
 export default function MembersList() {
@@ -83,7 +84,12 @@ export default function MembersList() {
       });
       if (response.ok) {
         const data = await response.json();
-        setMembers(data.members);
+        const rawMembers = data.members;
+        const mappedMembers = rawMembers.map(m => ({
+          ...m,
+          computedRelation: calculateRelation(m, rawMembers, user?.memberProfile)
+        }));
+        setMembers(mappedMembers);
       } else {
         const errData = await response.json();
         setError(errData.message || 'Failed to fetch members');
@@ -276,7 +282,7 @@ export default function MembersList() {
       m.address.toLowerCase().includes(search.toLowerCase());
 
     const matchesGender = !genderFilter || m.gender === genderFilter;
-    const matchesRelation = !relationFilter || m.relation === relationFilter;
+    const matchesRelation = !relationFilter || m.computedRelation === relationFilter || m.relation === relationFilter;
     const matchesMarital = !maritalFilter || m.maritalStatus === maritalFilter;
 
     return matchesSearch && matchesGender && matchesRelation && matchesMarital;
@@ -428,11 +434,11 @@ export default function MembersList() {
                       </div>
                     </td>
                     <td className="py-3.5 px-4 font-bold text-saas-text-primary">{member.fullName}</td>
-                    <td className="py-3.5 px-4">
-                      <span className="text-[10px] font-black px-2 py-0.5 bg-saas-bg border border-saas-border text-saas-text-secondary rounded-md uppercase tracking-wider">
-                        {member.relation}
-                      </span>
-                    </td>
+                      <td className="py-4 px-4">
+                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-500/10 text-purple-400 border border-purple-500/20">
+                        {member.computedRelation || member.relation}
+                        </span>
+                      </td>
                     <td className="py-3.5 px-4">
                       <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md uppercase ${
                         member.gender === 'Male' ? 'bg-saas-primary/10 text-saas-primary' : 'bg-rose-500/10 text-rose-500'

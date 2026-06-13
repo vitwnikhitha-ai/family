@@ -16,6 +16,7 @@ import {
   Shield
 } from 'lucide-react';
 import { useAuth, API_URL } from '../context/AuthContext';
+import { calculateRelation } from '../utils/relationCalculator';
 import MemberProfile from './MemberProfile';
 import getProfileImage from '../utils/getProfileImage';
 
@@ -36,7 +37,11 @@ export default function Dashboard() {
         });
         if (response.ok) {
           const data = await response.json();
-          setMembers(data.members);
+          const mappedMembers = data.members.map(m => ({
+            ...m,
+            computedRelation: calculateRelation(m, data.members, user?.memberProfile)
+          }));
+          setMembers(mappedMembers);
         } else {
           setError('Failed to fetch dashboard metrics.');
         }
@@ -48,8 +53,7 @@ export default function Dashboard() {
       }
     }
     fetchMembers();
-  }, [token]);
-
+  }, [token, user]);
   // Calculations
   const totalMembers = members.length;
   const maleCount = members.filter(m => m.gender === 'Male').length;
@@ -78,7 +82,7 @@ export default function Dashboard() {
       return {
         name: m.fullName,
         date: dob.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
-        relation: m.relation,
+        relation: m.computedRelation || m.relation,
         daysLeft,
         member: m
       };

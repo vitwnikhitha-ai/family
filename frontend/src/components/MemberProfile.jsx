@@ -22,6 +22,7 @@ import {
   UserCheck
 } from 'lucide-react';
 import { useAuth, API_URL } from '../context/AuthContext';
+import { calculateRelation } from '../utils/relationCalculator';
 import getProfileImage from '../utils/getProfileImage';
 
 export default function MemberProfile({ memberId, onClose, onEdit }) {
