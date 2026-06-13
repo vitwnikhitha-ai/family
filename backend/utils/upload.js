@@ -9,7 +9,10 @@ dotenv.config();
 
 // Ensure local uploads directory exists
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const UPLOADS_DIR = path.resolve(__dirname, '../uploads');
+const UPLOADS_DIR = process.env.NODE_ENV === 'production' 
+  ? '/tmp/uploads' 
+  : path.resolve(__dirname, '../uploads');
+  
 if (!fs.existsSync(UPLOADS_DIR)) {
   fs.mkdirSync(UPLOADS_DIR, { recursive: true });
 }
