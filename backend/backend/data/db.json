@@ -1,0 +1,31 @@
+{
+  "users": [
+    {
+      "_id": "9b1992b5ea9e114d36c73a3d",
+      "createdAt": "2026-06-13T17:19:12.596Z",
+      "updatedAt": "2026-06-13T17:19:12.596Z",
+      "username": "admin",
+      "password": "$2a$10$2sisVjWqcRu1ex1WYLD7R.HKPFEHT7k1kPsq4TmCamfbZQpDtPXsa",
+      "role": "Admin",
+      "memberProfile": "a060404750678dea9195d96d"
+    }
+  ],
+  "members": [
+    {
+      "_id": "a060404750678dea9195d96d",
+      "createdAt": "2026-06-13T17:19:12.587Z",
+      "updatedAt": "2026-06-13T17:19:12.620Z",
+      "fullName": "Admin Founder",
+      "relation": "Self",
+      "gender": "Male",
+      "dateOfBirth": "1980-01-01",
+      "phoneNumber": "9876543210",
+      "aadhaarNumber": "1c04b2ca887e9c69dae116753d2a9b5e:12df5624f778204f98e1b446871cbc6c",
+      "address": "123 Family Street, Heritage City",
+      "occupation": "Family Historian",
+      "maritalStatus": "Married",
+      "profilePhoto": null
+    }
+  ],
+  "documents": []
+}
