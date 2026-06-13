@@ -3,7 +3,7 @@ import React, { createContext, useState, useEffect, useContext } from 'react';
 const AuthContext = createContext(null);
 
 // Use relative path '/_/backend/api' in production (Vercel) and localhost for dev
-export const API_URL = import.meta.env.MODE === 'production' ? '/_/backend/api' : 'http://localhost:5000/api';
+export const API_URL = import.meta.env.MODE === 'production' ? '/api' : 'http://localhost:5000/api';
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
