@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Lock, User, AlertCircle, Sparkles, ChevronRight } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
@@ -13,6 +13,14 @@ export default function Login() {
   const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [showSplash, setShowSplash] = useState(true);
+
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowSplash(false);
+    }, 2800);
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -47,6 +55,27 @@ export default function Login() {
   return (
     <div className="min-h-screen w-full flex items-center justify-center bg-[#090D16] relative overflow-hidden px-4 py-12">
       
+      <AnimatePresence>
+        {showSplash && (
+          <motion.div
+            key="splash"
+            initial={{ opacity: 1 }}
+            exit={{ opacity: 0, scale: 1.1, filter: "blur(10px)" }}
+            transition={{ duration: 0.8, ease: "easeInOut" }}
+            className="absolute inset-0 z-50 flex items-center justify-center bg-[#090D16]"
+          >
+            <motion.h1 
+              initial={{ opacity: 0, y: 20, letterSpacing: "0.1em" }}
+              animate={{ opacity: 1, y: 0, letterSpacing: "0.2em" }}
+              transition={{ delay: 0.3, duration: 1.2, ease: "easeOut" }}
+              className="text-4xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-violet-400 to-fuchsia-400 uppercase text-center px-4"
+            >
+              Hello Maddali
+            </motion.h1>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Immersive Animated Gradient Background Blobs */}
       <motion.div 
         animate={{
