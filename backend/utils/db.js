@@ -273,7 +273,11 @@ const db = {
   async connect() {
     const mongoUri = process.env.MONGODB_URI;
     if (!mongoUri) {
-      console.log('⚠️  No MONGODB_URI environment variable detected. Falling back to local JSON database.');
+      console.log('⚠️  No MONGODB_URI environment variable detected.');
+      if (process.env.NODE_ENV === 'production') {
+        throw new Error('MONGODB_URI is required in production environment.');
+      }
+      console.log('⚠️ Falling back to local JSON database.');
       this.setupMockDb();
       return;
     }
@@ -295,6 +299,10 @@ const db = {
       this.isMock = false;
     } catch (error) {
       console.error('❌ MongoDB connection failed:', error.message);
+      if (process.env.NODE_ENV === 'production') {
+        console.error('⚠️ Production environment detected. Throwing connection error instead of falling back to mock database.');
+        throw error;
+      }
       console.log('⚠️ Falling back to local JSON database.');
       this.setupMockDb();
     }

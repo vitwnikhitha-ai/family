@@ -126,7 +126,7 @@
     {
       "_id": "fbdf316c3881c49a50b515fc",
       "createdAt": "2026-06-13T19:06:07.311Z",
-      "updatedAt": "2026-06-13T19:06:07.318Z",
+      "updatedAt": "2026-06-13T22:02:24.876Z",
       "fullName": "Nikhil",
       "relation": "Self",
       "gender": "Male",
@@ -138,7 +138,35 @@
       "maritalStatus": "Single",
       "father": "d005426cecd89ff0f3e95a09",
       "mother": "452d966f8d6e334b6ffd7abf",
-      "profilePhoto": "/nikhil.jpeg"
+      "profilePhoto": "/nikhil.jpeg",
+      "spouse": null,
+      "children": [],
+      "privacySettings_dateOfBirth": "Public",
+      "privacySettings_phoneNumber": "Public",
+      "privacySettings_aadhaarNumber": "Public",
+      "privacySettings_address": "Public",
+      "privacySettings_occupation": "Public",
+      "customFields": [
+        {
+          "key": "Blood group",
+          "value": "AB+",
+          "privacy": "Public",
+          "isPrivate": false
+        },
+        {
+          "key": "instagram",
+          "value": "12345",
+          "privacy": "Private",
+          "isPrivate": false
+        }
+      ],
+      "privacySettings": {
+        "dateOfBirth": "Public",
+        "phoneNumber": "Public",
+        "aadhaarNumber": "Public",
+        "address": "Public",
+        "occupation": "Public"
+      }
     }
   ],
   "documents": []

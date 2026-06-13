@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Lock, User, AlertCircle, Sparkles, ChevronRight } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import SignatureSplash from './SignatureSplash';
 
 export default function Login() {
   const { login } = useAuth();
@@ -18,7 +19,7 @@ export default function Login() {
   React.useEffect(() => {
     const timer = setTimeout(() => {
       setShowSplash(false);
-    }, 2800);
+    }, 4500); // 3s draw + 1s hold + 0.5s fade
     return () => clearTimeout(timer);
   }, []);
 
@@ -56,24 +57,7 @@ export default function Login() {
     <div className="min-h-screen w-full flex items-center justify-center bg-[#090D16] relative overflow-hidden px-4 py-12">
       
       <AnimatePresence>
-        {showSplash && (
-          <motion.div
-            key="splash"
-            initial={{ opacity: 1 }}
-            exit={{ opacity: 0, scale: 1.1, filter: "blur(10px)" }}
-            transition={{ duration: 0.8, ease: "easeInOut" }}
-            className="absolute inset-0 z-50 flex items-center justify-center bg-[#090D16]"
-          >
-            <motion.h1 
-              initial={{ opacity: 0, y: 20, letterSpacing: "0.1em" }}
-              animate={{ opacity: 1, y: 0, letterSpacing: "0.2em" }}
-              transition={{ delay: 0.3, duration: 1.2, ease: "easeOut" }}
-              className="text-4xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-violet-400 to-fuchsia-400 uppercase text-center px-4"
-            >
-              Hello Maddali
-            </motion.h1>
-          </motion.div>
-        )}
+        {showSplash && <SignatureSplash key="splash" />}
       </AnimatePresence>
 
       {/* Immersive Animated Gradient Background Blobs */}

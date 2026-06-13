@@ -64,10 +64,10 @@ function applyPrivacyFilter(member, currentUserProfileId) {
       const cfObj = cf && typeof cf.toObject === 'function' ? cf.toObject() : { ...cf };
       cfObj.isPrivate = cfObj.privacy === 'Private';
       if (!isOwner && cfObj.privacy === 'Private') {
-        cfObj.value = 'Hidden (Private)';
+        return null; // completely hide private custom fields from others
       }
       return cfObj;
-    });
+    }).filter(Boolean);
   }
 
   // Populate recursion safely

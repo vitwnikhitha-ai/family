@@ -379,201 +379,181 @@ export default function MembersList() {
         </div>
       </div>
 
-      {/* Modern Data Table */}
-      <div className="bg-saas-card rounded-2xl border border-saas-border shadow-saas-card overflow-hidden">
+      {/* Modern Grid Directory */}
+      <div className="mt-6">
         {loading ? (
-          <div className="p-12 text-center text-saas-text-secondary space-y-4">
+          <div className="bg-saas-card rounded-2xl border border-saas-border p-12 text-center text-saas-text-secondary space-y-4">
             <div className="w-8 h-8 rounded-full border-2 border-saas-primary border-t-transparent animate-spin mx-auto" />
             <p className="text-xs font-bold uppercase tracking-wider">Loading family records...</p>
           </div>
         ) : error ? (
-          <div className="p-12 text-center text-rose-500">
+          <div className="bg-saas-card rounded-2xl border border-saas-border p-12 text-center text-rose-500">
             <Info className="w-8 h-8 mx-auto mb-2 text-rose-400" />
             <p className="text-sm font-semibold">{error}</p>
           </div>
         ) : filteredMembers.length === 0 ? (
-          <div className="p-16 text-center text-saas-text-secondary">
+          <div className="bg-saas-card rounded-2xl border border-saas-border p-16 text-center text-saas-text-secondary">
             <FileSpreadsheet className="w-10 h-10 mx-auto mb-3 text-saas-text-secondary opacity-60" />
             <p className="text-sm font-semibold">No family members found.</p>
             <p className="text-xs mt-1">Try resetting filters or adding new members.</p>
           </div>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse">
-              <thead>
-                <tr className="bg-saas-bg/60 border-b border-saas-border text-[10px] font-extrabold text-saas-text-secondary uppercase tracking-wider">
-                  <th className="py-4 px-5">Photo</th>
-                  <th className="py-4 px-4">Full Name</th>
-                  <th className="py-4 px-4">Relation</th>
-                  <th className="py-4 px-4">Gender</th>
-                  <th className="py-4 px-4">DOB</th>
-                  <th className="py-4 px-4">Phone</th>
-                  <th className="py-4 px-4">Aadhaar</th>
-                  <th className="py-4 px-4">Address</th>
-                  <th className="py-4 px-4">Occupation</th>
-                  <th className="py-4 px-4">Status</th>
-                  <th className="py-4 px-5 text-right">Actions</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-saas-border text-sm text-saas-text-secondary">
-                {filteredMembers.map((member) => (
-                  <tr key={member._id} className="hover:bg-saas-primary/5 transition-colors">
-                    <td className="py-3.5 px-5">
-                      <div className="w-10 h-10 rounded-xl bg-saas-bg border border-saas-border overflow-hidden">
-                        {getProfileImage(member) ? (
-                          <img 
-                            src={getProfileImage(member)} 
-                            alt={member.fullName} 
-                            className="w-full h-full object-cover"
-                          />
-                        ) : (
-                          <div className="w-full h-full flex items-center justify-center font-bold text-xs text-saas-text-secondary bg-saas-bg">
-                            {member.fullName.charAt(0)}
-                          </div>
-                        )}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {filteredMembers.map((member) => (
+              <div 
+                key={member._id} 
+                className="bg-saas-card border border-saas-border rounded-3xl p-6 hover:border-saas-primary/50 transition-all shadow-saas-card group relative flex flex-col hover:-translate-y-1 hover:shadow-2xl hover:shadow-saas-primary/5"
+              >
+                {/* Header: Photo and Info */}
+                <div className="flex items-start gap-4 mb-5">
+                  <div className="w-16 h-16 rounded-2xl bg-saas-bg border-2 border-saas-border overflow-hidden flex-shrink-0 relative">
+                    {getProfileImage(member) ? (
+                      <img 
+                        src={getProfileImage(member)} 
+                        alt={member.fullName} 
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center font-black text-xl text-saas-text-secondary">
+                        {member.fullName.charAt(0)}
                       </div>
-                    </td>
-                    <td className="py-3.5 px-4 font-bold text-saas-text-primary">{member.fullName}</td>
-                      <td className="py-4 px-4">
-                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-500/10 text-purple-400 border border-purple-500/20">
+                    )}
+                    {member.maritalStatus === 'Married' && (
+                      <div className="absolute -bottom-1 -right-1 bg-rose-500 rounded-full p-1 border-2 border-saas-card" title="Married">
+                        <Heart className="w-2.5 h-2.5 text-white fill-white" />
+                      </div>
+                    )}
+                  </div>
+                  
+                  <div className="flex-grow min-w-0">
+                    <h3 className="font-extrabold text-lg text-saas-text-primary truncate" title={member.fullName}>
+                      {member.fullName}
+                    </h3>
+                    <div className="flex flex-wrap items-center gap-1.5 mt-1.5">
+                      <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-black bg-purple-500/10 text-purple-400 border border-purple-500/20 uppercase tracking-wider">
                         {member.computedRelation || member.relation}
-                        </span>
-                      </td>
-                    <td className="py-3.5 px-4">
-                      <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md uppercase ${
-                        member.gender === 'Male' ? 'bg-saas-primary/10 text-saas-primary' : 'bg-rose-500/10 text-rose-500'
-                      }`}>
+                      </span>
+                      <span className={`text-[9px] font-black px-2 py-0.5 rounded-md uppercase tracking-wider ${member.gender === 'Male' ? 'bg-blue-500/10 text-blue-400 border border-blue-500/20' : 'bg-pink-500/10 text-pink-400 border border-pink-500/20'}`}>
                         {member.gender}
                       </span>
-                    </td>
-                    <td className="py-3.5 px-4 text-xs whitespace-nowrap">
-                      {member.isDobPrivate ? (
-                        <div className="flex items-center gap-1.5">
-                          <Lock className={`w-3.5 h-3.5 ${member._id === user?.memberProfile ? 'text-saas-warning' : 'text-saas-text-secondary/60'}`} />
-                          {member._id === user?.memberProfile ? (
-                            <div className="flex flex-col">
-                              <span className="text-saas-text-primary">{member.dateOfBirth ? new Date(member.dateOfBirth).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' }) : '-'}</span>
-                              <span className="text-[9px] text-saas-warning font-bold uppercase tracking-wider">Private to others</span>
-                            </div>
-                          ) : (
-                            <span className="text-saas-text-secondary/60 italic">Hidden</span>
-                          )}
-                        </div>
-                      ) : member.dateOfBirth ? (
-                        <span className="text-saas-text-primary">{new Date(member.dateOfBirth).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })}</span>
-                      ) : (
-                        '-'
-                      )}
-                    </td>
-                    <td className="py-3.5 px-4 text-xs whitespace-nowrap text-saas-text-primary">
-                      {member.isPhonePrivate ? (
-                        <div className="flex items-center gap-1.5">
-                          <Lock className={`w-3.5 h-3.5 ${member._id === user?.memberProfile ? 'text-saas-warning' : 'text-saas-text-secondary/60'}`} />
-                          {member._id === user?.memberProfile ? (
-                            <div className="flex flex-col">
-                              <span>{member.phoneNumber}</span>
-                              <span className="text-[9px] text-saas-warning font-bold uppercase tracking-wider">Private to others</span>
-                            </div>
-                          ) : (
-                            <span className="text-saas-text-secondary/60 italic">Hidden</span>
-                          )}
-                        </div>
-                      ) : (
-                        member.phoneNumber
-                      )}
-                    </td>
-                    <td className="py-3.5 px-4 text-xs font-mono text-saas-text-secondary whitespace-nowrap">
-                      <div className="flex items-center gap-1.5">
-                        <Lock className={`w-3.5 h-3.5 ${member._id === user?.memberProfile ? 'text-saas-warning' : 'text-saas-text-secondary/60'}`} />
-                        {member.isAadhaarPrivate ? (
-                          member._id === user?.memberProfile ? (
-                            <div className="flex flex-col text-saas-text-primary">
-                              <span>{member.aadhaarNumber}</span>
-                              <span className="text-[9px] text-saas-warning font-bold uppercase tracking-wider">Private to others</span>
-                            </div>
-                          ) : (
-                            <span className="text-saas-text-secondary/60 italic font-sans">Hidden</span>
-                          )
-                        ) : (
-                          <span className="text-saas-text-primary">{member.aadhaarNumber}</span>
-                        )}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Body info */}
+                <div className="space-y-3.5 mb-6 text-xs text-saas-text-secondary flex-grow">
+                  
+                  {/* Phone */}
+                  <div className="flex items-center gap-3">
+                    <div className="w-7 h-7 rounded-lg bg-saas-bg border border-saas-border flex items-center justify-center flex-shrink-0 text-saas-primary">
+                      <Phone className="w-3.5 h-3.5" />
+                    </div>
+                    {member.isPhonePrivate ? (
+                      <div className="flex items-center gap-1.5 overflow-hidden">
+                        <Lock className={`w-3.5 h-3.5 flex-shrink-0 ${member._id === user?.memberProfile ? 'text-saas-warning' : 'text-slate-500'}`} />
+                        <span className="italic truncate">{member._id === user?.memberProfile ? member.phoneNumber : 'Hidden'}</span>
                       </div>
-                    </td>
-                    <td className="py-3.5 px-4 text-xs max-w-xs truncate text-saas-text-primary">
-                      {member.isAddressPrivate ? (
-                        <div className="flex items-center gap-1.5">
-                          <Lock className={`w-3.5 h-3.5 flex-shrink-0 ${member._id === user?.memberProfile ? 'text-saas-warning' : 'text-saas-text-secondary/60'}`} />
-                          {member._id === user?.memberProfile ? (
-                            <div className="flex flex-col truncate">
-                              <span className="truncate">{member.address}</span>
-                              <span className="text-[9px] text-saas-warning font-bold uppercase tracking-wider">Private to others</span>
-                            </div>
-                          ) : (
-                            <span className="text-saas-text-secondary/60 italic">Hidden</span>
-                          )}
-                        </div>
-                      ) : (
-                        member.address
-                      )}
-                    </td>
-                    <td className="py-3.5 px-4 text-xs text-saas-text-primary">
-                      {member.isOccupationPrivate ? (
-                        <div className="flex items-center gap-1.5">
-                          <Lock className={`w-3.5 h-3.5 ${member._id === user?.memberProfile ? 'text-saas-warning' : 'text-saas-text-secondary/60'}`} />
-                          {member._id === user?.memberProfile ? (
-                            <div className="flex flex-col">
-                              <span>{member.occupation}</span>
-                              <span className="text-[9px] text-saas-warning font-bold uppercase tracking-wider">Private to others</span>
-                            </div>
-                          ) : (
-                            <span className="text-saas-text-secondary/60 italic">Hidden</span>
-                          )}
-                        </div>
-                      ) : (
-                        member.occupation
-                      )}
-                    </td>
-                    <td className="py-3.5 px-4">
-                      <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md uppercase ${
-                        member.maritalStatus === 'Married' ? 'bg-saas-warning/10 text-saas-warning' : 'bg-saas-bg border border-saas-border text-saas-text-secondary'
-                      }`}>
-                        {member.maritalStatus}
-                      </span>
-                    </td>
-                    <td className="py-3.5 px-5 text-right whitespace-nowrap">
-                      <div className="flex items-center justify-end gap-1.5">
-                        <button 
-                          onClick={() => navigate(`/members?profileId=${member._id}`)}
-                          className="p-2 rounded-xl text-saas-text-secondary hover:text-saas-primary hover:bg-saas-bg border border-transparent hover:border-saas-border transition-all cursor-pointer"
-                          title="View Profile"
-                        >
-                          <Eye className="w-4.5 h-4.5" />
-                        </button>
-                        
-                        {user && (member._id?.toString() === user.memberProfile?.toString() || member.createdBy?.toString() === user.id?.toString()) && (
-                          <>
-                            <button 
-                              onClick={() => navigate(`/members?action=edit&id=${member._id}`)}
-                              className="p-2 rounded-xl text-saas-text-secondary hover:text-saas-primary hover:bg-saas-bg border border-transparent hover:border-saas-border transition-all cursor-pointer"
-                              title="Edit Member"
-                            >
-                              <Edit3 className="w-4.5 h-4.5" />
-                            </button>
-                            <button 
-                              onClick={() => handleDelete(member._id, member.fullName)}
-                              className="p-2 rounded-xl text-saas-text-secondary hover:text-rose-500 hover:bg-saas-bg border border-transparent hover:border-saas-border transition-all cursor-pointer"
-                              title="Delete Member"
-                            >
-                              <Trash2 className="w-4.5 h-4.5" />
-                            </button>
-                          </>
-                        )}
+                    ) : (
+                      <span className="truncate text-saas-text-primary font-medium">{member.phoneNumber}</span>
+                    )}
+                  </div>
+
+                  {/* DOB */}
+                  <div className="flex items-center gap-3">
+                    <div className="w-7 h-7 rounded-lg bg-saas-bg border border-saas-border flex items-center justify-center flex-shrink-0 text-saas-primary">
+                      <Calendar className="w-3.5 h-3.5" />
+                    </div>
+                    {member.isDobPrivate ? (
+                      <div className="flex items-center gap-1.5 overflow-hidden">
+                        <Lock className={`w-3.5 h-3.5 flex-shrink-0 ${member._id === user?.memberProfile ? 'text-saas-warning' : 'text-slate-500'}`} />
+                        <span className="italic truncate">{member._id === user?.memberProfile ? (member.dateOfBirth ? new Date(member.dateOfBirth).toLocaleDateString() : '-') : 'Hidden'}</span>
                       </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+                    ) : (
+                      <span className="truncate text-saas-text-primary font-medium">{member.dateOfBirth ? new Date(member.dateOfBirth).toLocaleDateString() : '-'}</span>
+                    )}
+                  </div>
+
+                  {/* Occupation */}
+                  <div className="flex items-center gap-3">
+                    <div className="w-7 h-7 rounded-lg bg-saas-bg border border-saas-border flex items-center justify-center flex-shrink-0 text-saas-primary">
+                      <Briefcase className="w-3.5 h-3.5" />
+                    </div>
+                    {member.isOccupationPrivate ? (
+                      <div className="flex items-center gap-1.5 overflow-hidden">
+                        <Lock className={`w-3.5 h-3.5 flex-shrink-0 ${member._id === user?.memberProfile ? 'text-saas-warning' : 'text-slate-500'}`} />
+                        <span className="italic truncate">{member._id === user?.memberProfile ? member.occupation : 'Hidden'}</span>
+                      </div>
+                    ) : (
+                      <span className="truncate text-saas-text-primary font-medium">{member.occupation}</span>
+                    )}
+                  </div>
+
+                  {/* Address */}
+                  <div className="flex items-center gap-3">
+                    <div className="w-7 h-7 rounded-lg bg-saas-bg border border-saas-border flex items-center justify-center flex-shrink-0 text-saas-primary">
+                      <MapPin className="w-3.5 h-3.5" />
+                    </div>
+                    {member.isAddressPrivate ? (
+                      <div className="flex items-center gap-1.5 overflow-hidden">
+                        <Lock className={`w-3.5 h-3.5 flex-shrink-0 ${member._id === user?.memberProfile ? 'text-saas-warning' : 'text-slate-500'}`} />
+                        <span className="italic truncate">{member._id === user?.memberProfile ? member.address : 'Hidden'}</span>
+                      </div>
+                    ) : (
+                      <span className="truncate text-saas-text-primary font-medium">{member.address}</span>
+                    )}
+                  </div>
+
+                  {/* Custom Fields block */}
+                  {member.customFields && member.customFields.length > 0 && (
+                    <div className="pt-3 mt-3 border-t border-saas-border/40 flex flex-wrap gap-2">
+                      {member.customFields.map((field, idx) => (
+                        <div key={idx} className="flex items-center gap-1 bg-saas-bg px-2.5 py-1.5 rounded-lg text-[10px] border border-saas-border shadow-sm max-w-full">
+                          <span className="font-bold text-saas-text-secondary truncate">{field.key}:</span>
+                          <span className="font-extrabold text-saas-text-primary truncate">
+                            {field.isPrivate && member._id !== user?.memberProfile ? (
+                              <Lock className="w-2.5 h-2.5 inline text-slate-500" />
+                            ) : field.value}
+                          </span>
+                          {field.isPrivate && member._id === user?.memberProfile && (
+                            <Lock className="w-2.5 h-2.5 text-saas-warning ml-0.5" title="Private" />
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {/* Actions */}
+                <div className="pt-4 border-t border-saas-border flex items-center justify-between gap-2 mt-auto">
+                  <button 
+                    onClick={() => navigate(`/members?profileId=${member._id}`)}
+                    className="flex-1 py-2.5 rounded-xl bg-saas-primary text-white hover:bg-opacity-90 shadow-md shadow-saas-primary/20 transition-all font-bold text-xs flex items-center justify-center gap-2"
+                  >
+                    <Eye className="w-4 h-4" />
+                    View Details
+                  </button>
+                  
+                  {user && (member._id?.toString() === user.memberProfile?.toString() || member.createdBy?.toString() === user.id?.toString()) && (
+                    <>
+                      <button 
+                        onClick={() => navigate(`/members?action=edit&id=${member._id}`)}
+                        className="p-2.5 rounded-xl bg-saas-bg hover:bg-saas-primary/10 text-saas-text-secondary hover:text-saas-primary border border-saas-border hover:border-saas-primary/20 transition-all"
+                        title="Edit Member"
+                      >
+                        <Edit3 className="w-4 h-4" />
+                      </button>
+                      <button 
+                        onClick={() => handleDelete(member._id, member.fullName)}
+                        className="p-2.5 rounded-xl bg-saas-bg hover:bg-rose-500/10 text-saas-text-secondary hover:text-rose-500 border border-saas-border hover:border-rose-500/20 transition-all"
+                        title="Delete Member"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </>
+                  )}
+                </div>
+              </div>
+            ))}
           </div>
         )}
       </div>
