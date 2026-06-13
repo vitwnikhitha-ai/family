@@ -463,7 +463,7 @@ function FamilyTreeCanvas() {
         }`}
       >
         {/* Floating Custom Controls */}
-        <div className="absolute top-6 left-6 z-40 flex items-center gap-2 bg-white/95 border border-slate-200 p-1.5 rounded-xl shadow-md backdrop-blur-sm">
+        <div className="absolute top-6 left-6 z-10 flex items-center gap-2 bg-white/95 border border-slate-200 p-1.5 rounded-xl shadow-md backdrop-blur-sm">
           <button 
             onClick={() => reactFlowInstance.zoomIn({ duration: 300 })}
             className="p-2.5 rounded-lg text-slate-500 hover:text-saas-primary hover:bg-slate-50 transition-colors cursor-pointer"

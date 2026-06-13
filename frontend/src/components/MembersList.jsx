@@ -305,15 +305,6 @@ export default function MembersList() {
           <p className="text-saas-text-secondary text-sm mt-1">View, manage, and edit details of all family members in the Maddali registry.</p>
         </div>
         
-        {isAdmin && (
-          <button 
-            onClick={() => navigate('/members?action=add')}
-            className="flex items-center gap-2 bg-gradient-to-r from-saas-primary to-saas-accent hover:opacity-95 text-white font-bold text-xs px-5 py-3 rounded-xl shadow-lg shadow-saas-primary/10 transition-all hover:-translate-y-0.5 cursor-pointer"
-          >
-            <Plus className="w-4.5 h-4.5" />
-            <span>Add Member</span>
-          </button>
-        )}
       </div>
 
       {/* Filters & Search Row */}
