@@ -209,6 +209,16 @@ try {
   console.error('Error seeding default user:', seedError.message);
 }
 
+// Ensure live database is patched with the frontend public photos
+try {
+  await db.Member.updateMany({ fullName: 'Nikhil' }, { $set: { profilePhoto: '/nikhil.jpeg' } });
+  await db.Member.updateMany({ fullName: 'Nikhitha' }, { $set: { profilePhoto: '/nikhiltha.jpeg' } });
+  await db.Member.updateMany({ fullName: 'Praveen' }, { $set: { profilePhoto: '/praveen.jpeg' } });
+  await db.Member.updateMany({ fullName: 'Swarna Kumari' }, { $set: { profilePhoto: '/swarna kumari.jpeg' } });
+} catch (photoError) {
+  console.error('Error patching photos:', photoError.message);
+}
+
 if (process.env.NODE_ENV !== 'production') {
   app.listen(PORT, () => {
     console.log(`🚀 Server running on port ${PORT}`);
