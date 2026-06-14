@@ -33,6 +33,7 @@ import 'reactflow/dist/style.css';
 import { useAuth, API_URL } from '../../context/AuthContext';
 import MemberProfile from '../MemberProfile';
 import getProfileImage from '../../utils/getProfileImage';
+import { calculateRelation } from '../../utils/relationCalculator';
 
 // Nodes and edges dimensions for layout
 const NODE_WIDTH = 200;
@@ -273,7 +274,7 @@ function FamilyTreeCanvas() {
           id: member._id,
           fullName: member.fullName,
           gender: member.gender,
-          relation: member.relation,
+          relation: calculateRelation(member, members, user?.memberProfile),
           photo: getProfileImage(member),
           isCurrentUser,
           onNodeClick: (id) => setSelectedProfileId(id),
@@ -445,7 +446,7 @@ function FamilyTreeCanvas() {
                     </div>
                     <div>
                       <p className="font-bold text-xs text-saas-text-primary">{result.fullName}</p>
-                      <p className="text-[9px] font-bold text-saas-text-secondary uppercase mt-0.5">{result.relation}</p>
+                      <p className="text-[9px] font-bold text-saas-text-secondary uppercase mt-0.5">{calculateRelation(result, members, user?.memberProfile)}</p>
                     </div>
                   </div>
                 ))}
