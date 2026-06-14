@@ -66,6 +66,12 @@ function applyPrivacyFilter(member, currentUserProfileId) {
       if (!isOwner && cfObj.privacy === 'Private') {
         return null; // completely hide private custom fields from others
       }
+      
+      // Decrypt the custom field value for the frontend
+      if (cfObj.value) {
+        cfObj.value = decrypt(cfObj.value);
+      }
+      
       return cfObj;
     }).filter(Boolean);
   }
@@ -259,6 +265,15 @@ router.post('/', authenticateToken, requireAdmin, upload.single('profilePhoto'),
     memberData.children = memberData.children ? (typeof memberData.children === 'string' ? JSON.parse(memberData.children) : memberData.children) : [];
     memberData.children = memberData.children.map(c => c._id || c);
     memberData.customFields = memberData.customFields ? (typeof memberData.customFields === 'string' ? JSON.parse(memberData.customFields) : memberData.customFields) : [];
+    
+    // Encrypt custom field values before saving
+    if (memberData.customFields.length > 0) {
+      memberData.customFields = memberData.customFields.map(cf => ({
+        ...cf,
+        value: encrypt(cf.value)
+      }));
+    }
+
     memberData.createdBy = req.user.id;
 
     // Create the member
@@ -365,6 +380,14 @@ router.put('/:id', authenticateToken, requireAdmin, upload.single('profilePhoto'
     updates.children = updates.children ? (typeof updates.children === 'string' ? JSON.parse(updates.children) : updates.children) : [];
     updates.children = updates.children.map(c => c._id || c);
     updates.customFields = updates.customFields ? (typeof updates.customFields === 'string' ? JSON.parse(updates.customFields) : updates.customFields) : [];
+
+    // Encrypt custom field values before saving
+    if (updates.customFields.length > 0) {
+      updates.customFields = updates.customFields.map(cf => ({
+        ...cf,
+        value: encrypt(cf.value)
+      }));
+    }
 
     // Perform the update
     const updatedMember = await db.Member.findByIdAndUpdate(memberId, updates, { new: true });

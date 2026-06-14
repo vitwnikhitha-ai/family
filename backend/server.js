@@ -163,10 +163,18 @@ try {
     nikhilMember.aadhaarNumber = encrypt('555566660000');
     await nikhilMember.save();
 
+    // Hash passwords before seeding
+    const salt = await bcrypt.genSalt(10);
+    const nikhilPassword = await bcrypt.hash('nikhil123', salt);
+    const nageswararaoPassword = await bcrypt.hash('nageswararao123', salt);
+    const swarnakumariPassword = await bcrypt.hash('swarnakumari123', salt);
+    const nikhithaPassword = await bcrypt.hash('nikhitha123', salt);
+    const praveenPassword = await bcrypt.hash('praveen123', salt);
+
     // Seed User Account: nikhil
     await db.User.create({
       username: 'nikhil',
-      password: 'nikhil123',
+      password: nikhilPassword,
       role: 'Admin',
       memberProfile: nikhilMember._id
     });
@@ -174,7 +182,7 @@ try {
     // Seed User Account: nageswararao
     await db.User.create({
       username: 'nageswararao',
-      password: 'nageswararao123',
+      password: nageswararaoPassword,
       role: 'Admin',
       memberProfile: father._id
     });
@@ -182,7 +190,7 @@ try {
     // Seed User Account: swarnakumari
     await db.User.create({
       username: 'swarnakumari',
-      password: 'swarnakumari123',
+      password: swarnakumariPassword,
       role: 'Admin',
       memberProfile: mother._id
     });
@@ -190,7 +198,7 @@ try {
     // Seed User Account: nikhitha
     await db.User.create({
       username: 'nikhitha',
-      password: 'nikhitha123',
+      password: nikhithaPassword,
       role: 'Admin',
       memberProfile: sister._id
     });
@@ -198,7 +206,7 @@ try {
     // Seed User Account: praveen
     await db.User.create({
       username: 'praveen',
-      password: 'praveen123',
+      password: praveenPassword,
       role: 'Admin',
       memberProfile: brother._id
     });

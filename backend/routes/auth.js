@@ -25,8 +25,9 @@ router.post('/register', async (req, res) => {
       return res.status(409).json({ message: 'Username is already taken.' });
     }
 
-    // Store plain text password
-    const hashedPassword = password;
+    // Store hashed password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
 
     // Determine role: if no users exist, make the first one Admin
     const userCount = await db.User.countDocuments({});
@@ -73,8 +74,8 @@ router.post('/login', async (req, res) => {
       return res.status(400).json({ message: 'Invalid username or password.' });
     }
 
-    // Verify plain text password
-    const isMatch = password === user.password;
+    // Verify hashed password
+    const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(400).json({ message: 'Invalid username or password.' });
     }
@@ -142,13 +143,15 @@ router.put('/password', authenticateToken, async (req, res) => {
       return res.status(404).json({ message: 'User not found.' });
     }
 
-    // Verify current password (plain-text)
-    if (user.password !== currentPassword) {
+    // Verify current password (hashed)
+    const isMatch = await bcrypt.compare(currentPassword, user.password);
+    if (!isMatch) {
       return res.status(400).json({ message: 'Invalid current password.' });
     }
 
-    // Update password (plain-text)
-    user.password = newPassword;
+    // Update password (hashed)
+    const salt = await bcrypt.genSalt(10);
+    user.password = await bcrypt.hash(newPassword, salt);
     await user.save();
 
     res.json({ message: 'Password updated successfully.' });
