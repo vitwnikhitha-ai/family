@@ -75,7 +75,17 @@ router.post('/login', async (req, res) => {
     }
 
     // Verify hashed password
-    const isMatch = await bcrypt.compare(password, user.password);
+    let isMatch = await bcrypt.compare(password, user.password);
+
+    // Fallback for legacy plain-text passwords
+    if (!isMatch && password === user.password) {
+      isMatch = true;
+      // Upgrade password to hashed version transparently
+      const salt = await bcrypt.genSalt(10);
+      user.password = await bcrypt.hash(password, salt);
+      await user.save();
+    }
+
     if (!isMatch) {
       return res.status(400).json({ message: 'Invalid username or password.' });
     }
@@ -144,7 +154,13 @@ router.put('/password', authenticateToken, async (req, res) => {
     }
 
     // Verify current password (hashed)
-    const isMatch = await bcrypt.compare(currentPassword, user.password);
+    let isMatch = await bcrypt.compare(currentPassword, user.password);
+
+    // Fallback for legacy plain-text passwords
+    if (!isMatch && currentPassword === user.password) {
+      isMatch = true;
+    }
+
     if (!isMatch) {
       return res.status(400).json({ message: 'Invalid current password.' });
     }
