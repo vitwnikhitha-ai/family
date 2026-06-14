@@ -69,7 +69,11 @@ function inferCrossRelation(currentRelRaw, targetRelRaw, targetGender, targetDob
 }
 
 export function calculateRelation(targetMember, allMembers, currentUserProfileId) {
-  const currentUser = allMembers?.find(m => m._id === currentUserProfileId);
+  // Safe ID extractor
+  const getId = (val) => val && (typeof val === 'object' ? val._id?.toString() : val.toString());
+
+  const currentUserIdStr = getId(currentUserProfileId);
+  const currentUser = allMembers?.find(m => getId(m._id) === currentUserIdStr);
 
   const getSafeFallback = (member) => {
     if (!member) return 'Unknown';
@@ -90,26 +94,37 @@ export function calculateRelation(targetMember, allMembers, currentUserProfileId
   if (!targetMember || !allMembers || !currentUserProfileId) return getSafeFallback(targetMember);
   if (!currentUser) return getSafeFallback(targetMember);
 
+  const targetIdStr = getId(targetMember._id);
+
   // 1. Self
-  if (targetMember._id === currentUser._id) return 'Self';
+  if (targetIdStr === currentUserIdStr) return 'Self';
+
+  // Extract relational IDs
+  const currFatherId = getId(currentUser.father);
+  const currMotherId = getId(currentUser.mother);
+  const currSpouseId = getId(currentUser.spouse);
+  const currChildrenIds = (currentUser.children || []).map(getId);
+
+  const targetFatherId = getId(targetMember.father);
+  const targetMotherId = getId(targetMember.mother);
 
   // 2. Parents
-  if (currentUser.father && targetMember._id === currentUser.father) return 'Father';
-  if (currentUser.mother && targetMember._id === currentUser.mother) return 'Mother';
+  if (currFatherId && targetIdStr === currFatherId) return 'Father';
+  if (currMotherId && targetIdStr === currMotherId) return 'Mother';
 
   // 3. Spouse
-  if (currentUser.spouse && targetMember._id === currentUser.spouse) {
+  if (currSpouseId && targetIdStr === currSpouseId) {
     return targetMember.gender === 'Male' ? 'Husband' : 'Wife';
   }
 
   // 4. Children
-  if (currentUser.children && currentUser.children.includes(targetMember._id)) {
+  if (currChildrenIds.includes(targetIdStr)) {
     return targetMember.gender === 'Male' ? 'Son' : 'Daughter';
   }
 
   // 5. Siblings (Share at least one parent)
-  const sharesFather = currentUser.father && targetMember.father === currentUser.father;
-  const sharesMother = currentUser.mother && targetMember.mother === currentUser.mother;
+  const sharesFather = currFatherId && targetFatherId && currFatherId === targetFatherId;
+  const sharesMother = currMotherId && targetMotherId && currMotherId === targetMotherId;
   
   if (sharesFather || sharesMother) {
     const currentDob = new Date(currentUser.dateOfBirth);
