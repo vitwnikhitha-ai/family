@@ -71,7 +71,7 @@ export default function Login() {
         {/* Header */}
         <div className="flex flex-col items-center text-center mb-8">
           <div className="w-16 h-16 rounded-[20px] bg-gradient-to-b from-white/10 to-white/0 p-[1px] shadow-[0_8px_16px_rgba(0,0,0,0.2)] mb-5 backdrop-blur-md overflow-hidden">
-            <img src="/c47f1eaa-908f-416d-a75d-130098af05d7.png" alt="Maddali Logo" className="w-full h-full object-cover rounded-[20px]" />
+            <img src="/maddali_logo.png" alt="Maddali Logo" className="w-full h-full object-cover rounded-[20px]" />
           </div>
           <h1 className="font-semibold text-2xl text-white/90 tracking-[-0.02em]">MADDALI PORTAL</h1>
           <p className="text-white/40 text-sm mt-1.5 font-medium tracking-wide">Enterprise Authentication</p>

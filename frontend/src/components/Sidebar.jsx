@@ -52,7 +52,7 @@ export default function Sidebar({ isOpen, setIsOpen }) {
           <div className={`flex items-center ${isCollapsed ? 'justify-center' : 'justify-between'} px-2`}>
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl overflow-hidden shadow-md shadow-saas-primary/20 flex items-center justify-center bg-white/5">
-                <img src="/c47f1eaa-908f-416d-a75d-130098af05d7.png" alt="Maddali Logo" className="w-full h-full object-cover" />
+                <img src="/maddali_logo.png" alt="Maddali Logo" className="w-full h-full object-cover" />
               </div>
               {!isCollapsed && (
                 <motion.div 
