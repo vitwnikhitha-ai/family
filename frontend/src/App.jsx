@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import Login from './components/Login';
-import Sidebar from './components/Sidebar';
+import AetheraLanding from './components/AetheraLanding';
 import Navbar from './components/Navbar';
 import Dashboard from './components/Dashboard';
 import MembersList from './components/MembersList';
+import MemberProfile from './components/MemberProfile';
 import FamilyTree from './components/FamilyTree/FamilyTree';
 import Documents from './components/Documents';
 import Settings from './components/Settings';
@@ -16,7 +17,7 @@ function PrivateRoute({ children }) {
 
   if (loading) {
     return (
-      <div className="min-h-screen w-full flex flex-col items-center justify-center bg-slate-50 gap-3">
+      <div className="min-h-screen w-full flex flex-col items-center justify-center bg-saas-bg gap-3">
         <div className="w-8 h-8 rounded-full border-2 border-primary-600 border-t-transparent animate-spin" />
         <p className="text-xs font-semibold text-slate-400">Authenticating session...</p>
       </div>
@@ -28,19 +29,13 @@ function PrivateRoute({ children }) {
 
 // Layout wrapper for authenticated pages
 function Layout({ children }) {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-
   return (
-    <div className="flex h-screen w-screen overflow-hidden bg-saas-bg text-saas-text-primary">
-      <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
+    <div className="flex flex-col h-screen w-screen overflow-hidden bg-transparent text-saas-text-primary">
+      <Navbar />
       
-      <div className="flex flex-col flex-grow overflow-hidden">
-        <Navbar onMenuClick={() => setSidebarOpen(true)} />
-        
-        <main className="flex-grow overflow-y-auto p-6 md:p-8">
-          {children}
-        </main>
-      </div>
+      <main className="flex-grow overflow-y-auto p-6 md:p-8 pt-24 md:pt-28">
+        {children}
+      </main>
     </div>
   );
 }
@@ -51,10 +46,11 @@ export default function App() {
       <AuthProvider>
         <Routes>
           {/* Public Authentication */}
+          <Route path="/" element={<AetheraLanding />} />
           <Route path="/login" element={<Login />} />
           
           {/* Protected Area */}
-          <Route path="/" element={
+          <Route path="/dashboard" element={
             <PrivateRoute>
               <Layout>
                 <Dashboard />
@@ -66,6 +62,22 @@ export default function App() {
             <PrivateRoute>
               <Layout>
                 <MembersList />
+              </Layout>
+            </PrivateRoute>
+          } />
+          
+          <Route path="/profile" element={
+            <PrivateRoute>
+              <Layout>
+                <MemberProfile />
+              </Layout>
+            </PrivateRoute>
+          } />
+
+          <Route path="/profile/:id" element={
+            <PrivateRoute>
+              <Layout>
+                <MemberProfile />
               </Layout>
             </PrivateRoute>
           } />

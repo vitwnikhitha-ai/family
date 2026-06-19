@@ -107,10 +107,10 @@ export default function Dashboard() {
         {/* Quick Action */}
         <button 
           onClick={() => navigate('/tree')}
-          className="flex items-center gap-2 bg-gradient-to-r from-saas-primary to-saas-accent hover:opacity-95 text-white font-bold text-xs px-5 py-3 rounded-xl shadow-lg shadow-saas-primary/10 transition-all hover:-translate-y-0.5 cursor-pointer"
+          className="flex items-center gap-2 bg-saas-card border border-white/10 text-white hover:text-saas-primary font-bold text-xs px-6 py-3.5 rounded-full shadow-saas-hover transition-all cursor-pointer group"
         >
           <span>Open Interactive Tree</span>
-          <ArrowRight className="w-4 h-4" />
+          <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
         </button>
       </div>
 
@@ -118,7 +118,7 @@ export default function Dashboard() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         
         {/* Total Members */}
-        <div className="bg-saas-card border border-saas-border p-6 rounded-2xl shadow-saas-card relative overflow-hidden flex flex-col justify-between h-36">
+        <div className="bg-saas-card border border-saas-border p-6 rounded-[36px] shadow-saas-card relative overflow-hidden flex flex-col justify-between h-36 shadow-saas-hover">
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold text-saas-text-secondary uppercase tracking-wider">Total Members</span>
             <div className="w-8 h-8 rounded-lg bg-saas-primary/10 text-saas-primary flex items-center justify-center">
@@ -136,7 +136,7 @@ export default function Dashboard() {
         </div>
 
         {/* Gender Distribution */}
-        <div className="bg-saas-card border border-saas-border p-6 rounded-2xl shadow-saas-card relative overflow-hidden flex flex-col justify-between h-36">
+        <div className="bg-saas-card border border-saas-border p-6 rounded-[36px] shadow-saas-card relative overflow-hidden flex flex-col justify-between h-36 shadow-saas-hover">
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold text-saas-text-secondary uppercase tracking-wider">Gender Split</span>
             <div className="w-8 h-8 rounded-lg bg-saas-accent/10 text-saas-accent flex items-center justify-center">
@@ -164,7 +164,7 @@ export default function Dashboard() {
         </div>
 
         {/* Marriage Ratio */}
-        <div className="bg-saas-card border border-saas-border p-6 rounded-2xl shadow-saas-card relative overflow-hidden flex flex-col justify-between h-36">
+        <div className="bg-saas-card border border-saas-border p-6 rounded-[36px] shadow-saas-card relative overflow-hidden flex flex-col justify-between h-36 shadow-saas-hover">
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold text-saas-text-secondary uppercase tracking-wider">Marriage Ratio</span>
             <div className="w-8 h-8 rounded-lg bg-rose-500/10 text-rose-500 flex items-center justify-center">
@@ -179,7 +179,7 @@ export default function Dashboard() {
         </div>
 
         {/* Documents Vault */}
-        <div className="bg-saas-card border border-saas-border p-6 rounded-2xl shadow-saas-card relative overflow-hidden flex flex-col justify-between h-36">
+        <div className="bg-saas-card border border-saas-border p-6 rounded-[36px] shadow-saas-card relative overflow-hidden flex flex-col justify-between h-36 shadow-saas-hover">
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold text-saas-text-secondary uppercase tracking-wider">Vault Files</span>
             <div className="w-8 h-8 rounded-lg bg-saas-warning/10 text-saas-warning flex items-center justify-center">
@@ -195,46 +195,63 @@ export default function Dashboard() {
 
       </div>
 
-      {/* Main Layout Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        
-        {/* Upcoming Birthdays widget */}
-        <div className="bg-saas-card border border-saas-border p-6 rounded-3xl shadow-saas-card space-y-4">
-          <div className="flex items-center justify-between border-b border-saas-border pb-3">
-            <div className="flex items-center gap-2">
-              <Cake className="w-4.5 h-4.5 text-saas-accent" />
-              <h3 className="font-extrabold text-sm text-saas-text-primary uppercase tracking-wide">Birthdays</h3>
-            </div>
-            <span className="text-[10px] font-bold text-saas-text-secondary">Upcoming</span>
-          </div>
-
-          <div className="divide-y divide-saas-border">
-            {birthdays.map((bday, idx) => (
-              <div key={idx} className="py-3 flex items-center justify-between first:pt-0 last:pb-0">
-                <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-saas-primary/10 to-saas-accent/10 flex items-center justify-center font-bold text-xs text-saas-primary overflow-hidden">
-                    {getProfileImage(bday.member) ? (
-                      <img src={getProfileImage(bday.member)} alt={bday.name} className="w-full h-full object-cover" />
-                    ) : (
-                      bday.name.charAt(0)
-                    )}
-                  </div>
-                  <div>
-                    <h4 className="font-extrabold text-xs text-saas-text-primary leading-tight">{bday.name}</h4>
-                    <span className="text-[9px] font-bold text-saas-text-secondary uppercase tracking-wider block mt-0.5">{bday.relation}</span>
-                  </div>
-                </div>
-                <div className="text-right">
-                  <span className="text-[10px] font-black text-saas-text-primary">{bday.date}</span>
-                  <span className="text-[9px] font-bold text-saas-accent block mt-0.5">{bday.daysLeft} days left</span>
-                </div>
-              </div>
-            ))}
-          </div>
+      {/* Birthdays Section Header */}
+      <div className="flex items-center justify-between mb-6 mt-12">
+        <div>
+          <h2 className="text-2xl font-black text-white tracking-tight flex items-center gap-3">
+            <Cake className="w-6 h-6 text-saas-accent" />
+            Birthdays
+          </h2>
+          <p className="text-white/60 text-sm mt-1">Upcoming Family Celebrations</p>
         </div>
+        <span className="bg-white/10 text-white font-bold text-[10px] px-3 py-1 rounded-full border border-white/10 uppercase tracking-widest">
+          {birthdays.length} Upcoming
+        </span>
+      </div>
 
+      {/* Birthdays Grid */}
+      <div 
+        className="grid gap-6 w-full"
+        style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))' }}
+      >
+        {birthdays.map((bday, idx) => (
+          <div 
+            key={idx} 
+            className="w-full max-w-[320px] mx-auto bg-white/[0.02] border border-white/10 rounded-[24px] p-6 backdrop-blur-3xl hover:border-white/30 transition-all duration-500 shadow-saas-card group relative flex flex-col items-center hover:-translate-y-2 hover:shadow-2xl h-[280px]"
+          >
+            {/* Avatar Circle */}
+            <div className="w-20 h-20 rounded-full bg-white/5 border border-white/10 overflow-hidden flex-shrink-0 mb-3 flex items-center justify-center shadow-[inset_0_0_15px_rgba(255,255,255,0.05)]">
+              {getProfileImage(bday.member) ? (
+                <img 
+                  src={getProfileImage(bday.member)} 
+                  alt={bday.name} 
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <span className="font-bold text-2xl text-white/50">
+                  {bday.name.charAt(0)}
+                </span>
+              )}
+            </div>
 
+            {/* Name & Relation */}
+            <div className="text-center w-full mb-4">
+              <h3 className="font-bold text-[15px] text-white tracking-wide truncate px-2" title={bday.name}>
+                {bday.name}
+              </h3>
+              <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-bold bg-white/10 text-white/80 border border-white/10 uppercase tracking-widest mt-1">
+                {bday.relation}
+              </span>
+            </div>
 
+            {/* Birthday Details */}
+            <div className="w-full flex-grow flex flex-col items-center justify-center space-y-1 mb-4">
+              <span className="text-[15px] font-black text-white">{bday.date}</span>
+              <span className="text-[11px] font-bold text-saas-accent tracking-wider">{bday.daysLeft} Days Left</span>
+            </div>
+
+          </div>
+        ))}
       </div>
 
       {/* Details Dialog */}

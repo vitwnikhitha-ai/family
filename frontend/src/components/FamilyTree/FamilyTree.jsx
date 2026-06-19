@@ -41,16 +41,8 @@ const NODE_HEIGHT = 160;
 
 // Custom Node Component matching the 2nd image exactly
 const MemberNode = ({ data }) => {
-  const isMale = data.gender === 'Male';
   const isCurrentUser = data.isCurrentUser;
   
-  // Custom double neon-pink/purple gradient for current user or standard purple/pink gradient
-  const ringGradient = isCurrentUser
-    ? 'from-pink-500 via-purple-500 to-indigo-500' 
-    : isMale
-      ? 'from-blue-500 to-purple-600'
-      : 'from-pink-500 to-rose-600';
-
   return (
     <div className="flex flex-col items-center relative group">
       {/* Target handle for children connections */}
@@ -58,46 +50,25 @@ const MemberNode = ({ data }) => {
       
       {/* Avatar Circle */}
       <div className="relative">
-        <div className={`w-16 h-16 rounded-full bg-gradient-to-tr ${ringGradient} p-[3px] flex items-center justify-center shadow-lg relative`}>
-          {/* Double ring for current user */}
-          {isCurrentUser ? (
-            <div className="w-full h-full rounded-full bg-white p-[2px] flex items-center justify-center">
-              <div className={`w-full h-full rounded-full bg-gradient-to-tr ${ringGradient} p-[2px] flex items-center justify-center`}>
-                <div className="w-full h-full rounded-full bg-white flex items-center justify-center overflow-hidden">
-                  {data.photo ? (
-                    <img 
-                      src={data.photo} 
-                      alt={data.fullName} 
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <span className="font-extrabold text-lg text-purple-600">
-                      {data.fullName.charAt(0)}
-                    </span>
-                  )}
-                </div>
-              </div>
-            </div>
-          ) : (
-            <div className="w-full h-full rounded-full bg-white flex items-center justify-center overflow-hidden">
-              {data.photo ? (
-                <img 
-                  src={data.photo} 
-                  alt={data.fullName} 
-                  className="w-full h-full object-cover"
-                />
-              ) : (
-                <span className="font-extrabold text-lg text-purple-600">
-                  {data.fullName.charAt(0)}
-                </span>
-              )}
-            </div>
-          )}
+        <div className={`w-[72px] h-[72px] rounded-full bg-white/5 border border-white/20 backdrop-blur-xl shadow-[inset_0_0_15px_rgba(255,255,255,0.1),0_0_15px_rgba(255,255,255,0.05)] flex items-center justify-center relative z-10 ${isCurrentUser ? 'ring-2 ring-white/50 ring-offset-2 ring-offset-transparent' : ''}`}>
+          <div className="w-[64px] h-[64px] rounded-full overflow-hidden border border-white/10 relative">
+            {data.photo ? (
+              <img 
+                src={data.photo} 
+                alt={data.fullName} 
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <span className="font-bold text-xl text-white/50 flex items-center justify-center h-full w-full">
+                {data.fullName.charAt(0)}
+              </span>
+            )}
+          </div>
         </div>
 
         {/* Small floating heart badge for mother / spouse nodes */}
         {data.relation === 'Mother' && (
-          <span className="absolute -top-1.5 -right-1 bg-rose-500 text-white rounded-full w-5 h-5 flex items-center justify-center border-2 border-white shadow-md">
+          <span className="absolute -top-1 -right-1 bg-white/20 backdrop-blur-md text-white rounded-full w-5 h-5 flex items-center justify-center border border-white/30 shadow-lg z-20">
             <Heart className="w-2.5 h-2.5 fill-white text-white" />
           </span>
         )}
@@ -106,16 +77,16 @@ const MemberNode = ({ data }) => {
       {/* Label Card below Avatar */}
       <div 
         onClick={() => data.onNodeClick(data.id)}
-        className="mt-2.5 bg-white px-4 py-2 rounded-xl border border-slate-200 shadow-sm text-center min-w-[120px] max-w-[160px] cursor-pointer hover:border-saas-primary hover:shadow-md transition-all duration-200 z-10"
+        className="mt-3 bg-white/5 px-4 py-2.5 rounded-2xl border border-white/10 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.1)] text-center min-w-[130px] max-w-[180px] cursor-pointer hover:bg-white/10 hover:border-white/30 transition-all duration-300 z-10"
       >
-        <h4 className="font-extrabold text-slate-800 text-xs leading-tight truncate">{data.fullName}</h4>
-        <p className="text-[8px] font-bold text-slate-400 uppercase tracking-wider mt-0.5">{data.relation}</p>
+        <h4 className="font-bold text-white text-[13px] leading-tight truncate">{data.fullName}</h4>
+        <p className="text-[9px] font-bold text-white/60 uppercase tracking-widest mt-1">{data.relation}</p>
       </div>
 
       {/* Red Pill badge for current user */}
       {isCurrentUser && (
-        <span className="bg-rose-500 text-white font-extrabold text-[8px] px-2.5 py-0.5 rounded-full mt-2.5 uppercase tracking-wide shadow-sm whitespace-nowrap animate-pulse">
-          THAT'S YOU :)
+        <span className="bg-white/20 backdrop-blur-md text-white font-bold text-[8px] px-3 py-1 rounded-full mt-3 border border-white/20 uppercase tracking-widest shadow-[0_0_10px_rgba(255,255,255,0.1)] whitespace-nowrap">
+          THAT'S YOU
         </span>
       )}
 
@@ -125,7 +96,7 @@ const MemberNode = ({ data }) => {
   );
 };
 
-// Custom Spouse Connection Edge (Solid green horizontal line matching 2nd image style)
+// Custom Spouse Connection Edge (Cyan Glass Glow)
 const SpouseEdge = ({ id, sourceX, sourceY, targetX, targetY, style = {} }) => {
   const [edgePath] = getBezierPath({
     sourceX,
@@ -141,16 +112,17 @@ const SpouseEdge = ({ id, sourceX, sourceY, targetX, targetY, style = {} }) => {
       id={id}
       style={{
         ...style,
-        stroke: '#10b981', // Solid green lines as requested
-        strokeWidth: 3,
+        stroke: 'rgba(34, 211, 238, 0.4)',
+        strokeWidth: 2.5,
+        filter: 'drop-shadow(0 0 6px rgba(34,211,238,0.5))'
       }}
-      className="react-flow__edge-path"
+      className="react-flow__edge-path transition-all duration-300"
       d={edgePath}
     />
   );
 };
 
-// Custom Parent-Child Edge (Solid green connecting lines matching 2nd image style)
+// Custom Parent-Child Edge (Cyan Glass Glow)
 const ParentChildEdge = ({ id, sourceX, sourceY, targetX, targetY, style = {} }) => {
   const [edgePath] = getBezierPath({
     sourceX,
@@ -166,10 +138,11 @@ const ParentChildEdge = ({ id, sourceX, sourceY, targetX, targetY, style = {} })
       id={id}
       style={{
         ...style,
-        stroke: '#10b981', // Solid green lines as requested
-        strokeWidth: 3,
+        stroke: 'rgba(34, 211, 238, 0.4)',
+        strokeWidth: 2.5,
+        filter: 'drop-shadow(0 0 6px rgba(34,211,238,0.5))'
       }}
-      className="react-flow__edge-path"
+      className="react-flow__edge-path transition-all duration-300"
       d={edgePath}
     />
   );
@@ -402,20 +375,20 @@ function FamilyTreeCanvas() {
       {/* Search and Title Row */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 flex-shrink-0">
         <div>
-          <h1 className="text-3xl font-black text-saas-text-primary tracking-tight">Maddali Family Tree</h1>
-          <p className="text-saas-text-secondary text-sm mt-0.5">Explore generation hierarchies, zoom/pan branches, and manage family profile details.</p>
+          <h1 className="text-3xl font-black text-white tracking-tight">Maddali Family Tree</h1>
+          <p className="text-white/60 text-sm mt-0.5">Explore generation hierarchies, zoom/pan branches, and manage family profile details.</p>
         </div>
 
         {/* Member Search autocomplete */}
-        <div className="relative w-full md:w-80">
+        <div className="relative w-full md:w-80 z-50">
           <div className="relative">
-            <Search className="absolute left-3 top-3 w-4 h-4 text-saas-text-secondary" />
+            <Search className="absolute left-4 top-3 w-4 h-4 text-white/50" />
             <input 
               type="text"
               placeholder="Search family member..."
               value={searchQuery}
               onChange={handleSearch}
-              className="w-full pl-10 pr-4 py-2.5 bg-saas-card border border-saas-border rounded-xl text-xs focus:outline-none focus:border-saas-primary text-saas-text-primary placeholder-saas-text-secondary/60 shadow-sm"
+              className="w-full pl-11 pr-4 py-2.5 bg-white/5 border border-white/10 rounded-2xl text-[13px] focus:outline-none focus:border-white/30 text-white placeholder-white/40 shadow-sm backdrop-blur-xl transition-all"
             />
           </div>
           
@@ -425,15 +398,15 @@ function FamilyTreeCanvas() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 10 }}
-                className="absolute left-0 right-0 mt-2 bg-saas-card border border-saas-border rounded-xl shadow-xl z-50 overflow-hidden max-h-60 overflow-y-auto divide-y divide-saas-border/40"
+                className="absolute left-0 right-0 mt-2 bg-white/10 backdrop-blur-2xl border border-white/20 rounded-2xl shadow-2xl overflow-hidden max-h-60 overflow-y-auto"
               >
                 {searchResults.map(result => (
                   <div 
                     key={result._id}
                     onClick={() => selectSearchResult(result)}
-                    className="p-3 hover:bg-saas-bg cursor-pointer flex items-center gap-3 transition-colors"
+                    className="p-3 hover:bg-white/10 cursor-pointer flex items-center gap-3 transition-colors border-b border-white/5 last:border-0"
                   >
-                    <div className="w-8 h-8 rounded-full bg-saas-bg border border-saas-border overflow-hidden flex-shrink-0 flex items-center justify-center font-bold text-xs text-saas-text-secondary">
+                    <div className="w-8 h-8 rounded-full bg-white/5 border border-white/10 overflow-hidden flex-shrink-0 flex items-center justify-center font-bold text-xs text-white/50">
                       {getProfileImage(result) ? (
                         <img 
                           src={getProfileImage(result)} 
@@ -445,8 +418,8 @@ function FamilyTreeCanvas() {
                       )}
                     </div>
                     <div>
-                      <p className="font-bold text-xs text-saas-text-primary">{result.fullName}</p>
-                      <p className="text-[9px] font-bold text-saas-text-secondary uppercase mt-0.5">{calculateRelation(result, members, user?.memberProfile)}</p>
+                      <p className="font-bold text-[13px] text-white">{result.fullName}</p>
+                      <p className="text-[10px] font-bold text-white/60 uppercase tracking-widest mt-0.5">{calculateRelation(result, members, user?.memberProfile)}</p>
                     </div>
                   </div>
                 ))}
@@ -456,46 +429,46 @@ function FamilyTreeCanvas() {
         </div>
       </div>
 
-      {/* Main Canvas Area - Soft light green background matching the image */}
+      {/* Main Canvas Area - Liquid Glass */}
       <div 
         id="tree-canvas-container"
-        className={`relative bg-[#f0f9f4] border border-saas-border rounded-3xl flex-grow overflow-hidden shadow-saas-premium flex flex-col ${
-          isFullscreen ? 'fixed inset-0 z-50 p-8 bg-[#f0f9f4]' : ''
+        className={`relative bg-white/[0.02] border border-white/10 rounded-[32px] flex-grow overflow-hidden shadow-2xl flex flex-col backdrop-blur-[40px] ${
+          isFullscreen ? 'fixed inset-0 z-50 p-8' : ''
         }`}
       >
         {/* Floating Custom Controls */}
-        <div className="absolute top-6 left-6 z-10 flex items-center gap-2 bg-white/95 border border-slate-200 p-1.5 rounded-xl shadow-md backdrop-blur-sm">
+        <div className="absolute top-6 left-6 z-10 flex items-center gap-1.5 bg-white/5 border border-white/10 p-1.5 rounded-full shadow-lg backdrop-blur-xl">
           <button 
             onClick={() => reactFlowInstance.zoomIn({ duration: 300 })}
-            className="p-2.5 rounded-lg text-slate-500 hover:text-saas-primary hover:bg-slate-50 transition-colors cursor-pointer"
+            className="p-2.5 rounded-full text-white/60 hover:text-white hover:bg-white/10 transition-all cursor-pointer"
             title="Zoom In"
           >
-            <ZoomIn className="w-4.5 h-4.5" />
+            <ZoomIn className="w-4 h-4" />
           </button>
           <button 
             onClick={() => reactFlowInstance.zoomOut({ duration: 300 })}
-            className="p-2.5 rounded-lg text-slate-500 hover:text-saas-primary hover:bg-slate-50 transition-colors cursor-pointer"
+            className="p-2.5 rounded-full text-white/60 hover:text-white hover:bg-white/10 transition-all cursor-pointer"
             title="Zoom Out"
           >
-            <ZoomOut className="w-4.5 h-4.5" />
+            <ZoomOut className="w-4 h-4" />
           </button>
           
-          <div className="h-4 w-px bg-slate-200" />
+          <div className="h-5 w-px bg-white/10 mx-1" />
           
           <button 
             onClick={toggleFullscreen}
-            className="p-2.5 rounded-lg text-slate-500 hover:text-saas-primary hover:bg-slate-50 transition-colors cursor-pointer"
+            className="p-2.5 rounded-full text-white/60 hover:text-white hover:bg-white/10 transition-all cursor-pointer"
             title={isFullscreen ? 'Exit Full Screen' : 'Full Screen'}
           >
-            {isFullscreen ? <Minimize2 className="w-4.5 h-4.5" /> : <Maximize2 className="w-4.5 h-4.5" />}
+            {isFullscreen ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
           </button>
 
           {user?.memberProfile && (
             <>
-              <div className="h-4 w-px bg-slate-200" />
+              <div className="h-5 w-px bg-white/10 mx-1" />
               <button 
                 onClick={centerOnMe}
-                className="p-2 py-1 px-3 rounded-lg bg-saas-primary/10 hover:bg-saas-primary text-saas-primary hover:text-white font-bold text-[10px] uppercase tracking-wider transition-all cursor-pointer"
+                className="py-2 px-4 rounded-full bg-white/10 hover:bg-white/20 text-white font-bold text-[10px] uppercase tracking-widest transition-all cursor-pointer border border-white/5 shadow-sm"
                 title="Focus on my node"
               >
                 Center On Me
@@ -506,19 +479,19 @@ function FamilyTreeCanvas() {
 
         {/* Loading / Error / Empty States */}
         {loading ? (
-          <div className="flex-grow flex flex-col items-center justify-center text-slate-500 gap-3">
-            <div className="w-8 h-8 rounded-full border-2 border-saas-primary border-t-transparent animate-spin" />
-            <p className="text-xs font-semibold">Generating lineage tree...</p>
+          <div className="flex-grow flex flex-col items-center justify-center text-white/60 gap-3">
+            <div className="w-8 h-8 rounded-full border-2 border-white/20 border-t-white/80 animate-spin" />
+            <p className="text-[13px] font-semibold tracking-wide">Generating holographic tree...</p>
           </div>
         ) : error ? (
-          <div className="flex-grow flex flex-col items-center justify-center text-rose-500 gap-2">
-            <Info className="w-8 h-8 text-rose-400" />
-            <p className="text-sm font-semibold">{error}</p>
+          <div className="flex-grow flex flex-col items-center justify-center text-rose-400 gap-2">
+            <Info className="w-8 h-8 text-rose-400/80" />
+            <p className="text-[13px] font-semibold">{error}</p>
           </div>
         ) : members.length === 0 ? (
-          <div className="flex-grow flex flex-col items-center justify-center text-slate-400 gap-2">
-            <Users className="w-10 h-10 text-slate-300" />
-            <p className="text-sm font-semibold">No Family Members Cataloged</p>
+          <div className="flex-grow flex flex-col items-center justify-center text-white/40 gap-3">
+            <Users className="w-10 h-10 text-white/20" />
+            <p className="text-[13px] font-semibold tracking-wide">No Family Members Cataloged</p>
             <p className="text-xs">Add a member to view the tree.</p>
           </div>
         ) : (
@@ -537,12 +510,6 @@ function FamilyTreeCanvas() {
             >
             </ReactFlow>
 
-            {/* Custom footer watermark matching 2nd image */}
-            <div className="absolute bottom-4 left-0 right-0 text-center pointer-events-none z-10">
-              <span className="text-[10px] font-bold text-slate-400/80">
-                Copyright © 2026 <span className="font-extrabold text-slate-500">Maddali Family Tree</span> • Powered by Advanced Maddali System
-              </span>
-            </div>
           </div>
         )}
       </div>

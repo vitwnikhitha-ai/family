@@ -19,14 +19,21 @@ import {
   Shield,
   Edit2,
   FileCheck,
-  UserCheck
+  UserCheck,
+  StickyNote
 } from 'lucide-react';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth, API_URL } from '../context/AuthContext';
 import { calculateRelation } from '../utils/relationCalculator';
 import getProfileImage from '../utils/getProfileImage';
 
-export default function MemberProfile({ memberId, onClose, onEdit }) {
+export default function MemberProfile() {
+  const { id } = useParams();
+  const navigate = useNavigate();
   const { token, user } = useAuth();
+  
+  // Use 'root' if no id is provided (i.e. user's own profile)
+  const memberId = id || 'root';
   const [member, setMember] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -160,8 +167,8 @@ export default function MemberProfile({ memberId, onClose, onEdit }) {
 
   if (loading) {
     return (
-      <div className="fixed inset-0 z-50 flex items-center justify-end bg-slate-950/20 backdrop-blur-sm">
-        <div className="w-full max-w-2xl h-full bg-saas-card border-l border-saas-border flex flex-col justify-center items-center gap-3">
+      <div className="flex items-center justify-center min-h-[50vh]">
+        <div className="flex flex-col items-center gap-3">
           <div className="w-8 h-8 rounded-full border-2 border-saas-primary border-t-transparent animate-spin" />
           <p className="text-xs font-bold text-saas-text-secondary uppercase tracking-wider">Syncing Vault...</p>
         </div>
@@ -171,12 +178,12 @@ export default function MemberProfile({ memberId, onClose, onEdit }) {
 
   if (error || !member) {
     return (
-      <div className="fixed inset-0 z-50 flex items-center justify-end bg-slate-950/20 backdrop-blur-sm">
-        <div className="w-full max-w-2xl h-full bg-saas-card border-l border-saas-border p-8 flex flex-col justify-center items-center gap-4 text-center">
+      <div className="flex items-center justify-center min-h-[50vh]">
+        <div className="bg-saas-card border border-saas-border rounded-3xl p-8 flex flex-col items-center gap-4 text-center max-w-sm">
           <span className="text-rose-500 font-extrabold text-sm">Profile Load Failed</span>
-          <p className="text-xs text-saas-text-secondary max-w-xs">{error || 'Record is missing.'}</p>
-          <button onClick={onClose} className="px-5 py-2 bg-saas-bg rounded-xl border border-saas-border text-xs font-semibold">
-            Close Panel
+          <p className="text-xs text-saas-text-secondary">{error || 'Record is missing.'}</p>
+          <button onClick={() => navigate('/members')} className="px-5 py-2 bg-saas-bg rounded-xl border border-saas-border text-xs font-semibold hover:bg-saas-border/50 transition-colors cursor-pointer">
+            Return to Directory
           </button>
         </div>
       </div>
@@ -187,40 +194,35 @@ export default function MemberProfile({ memberId, onClose, onEdit }) {
   const showEdit = isOwner || member.createdBy === user?.id;
 
   return (
-    <div className="fixed inset-0 z-50 flex justify-end bg-slate-950/20 backdrop-blur-sm">
-      {/* Background click dismiss */}
-      <div className="absolute inset-0 -z-10" onClick={onClose} />
-
-      {/* Full Screen Sliding Drawer */}
-      <motion.div 
-        initial={{ x: '100%' }}
-        animate={{ x: 0 }}
-        exit={{ x: '100%' }}
-        transition={{ type: 'tween', duration: 0.35, ease: 'easeOut' }}
-        className="w-full max-w-2xl h-full bg-saas-card border-l border-saas-border flex flex-col justify-between overflow-hidden shadow-2xl relative"
-      >
+    <div className="max-w-4xl mx-auto space-y-6 pb-12">
+      
+      {/* Top Controls */}
+      <div className="flex items-center justify-between">
+        <button 
+          onClick={() => navigate('/members')}
+          className="px-4 py-2 rounded-xl bg-saas-card border border-saas-border hover:bg-saas-bg text-saas-text-secondary hover:text-saas-text-primary transition-all shadow-sm flex items-center gap-2 cursor-pointer text-xs font-bold"
+        >
+          <X className="w-4 h-4" />
+          Back to Members
+        </button>
         
-        {/* Top Header Row */}
-        <div className="absolute top-4 right-4 z-10 flex items-center gap-2">
-          {showEdit && (
-            <button 
-              onClick={() => onEdit(member._id)}
-              className="p-2.5 rounded-xl bg-saas-card border border-saas-border hover:bg-saas-bg text-saas-text-secondary hover:text-saas-primary transition-all shadow-sm flex items-center gap-1.5"
-            >
-              <Edit2 className="w-4 h-4" />
-              <span className="text-[10px] font-bold uppercase tracking-wide">Edit</span>
-            </button>
-          )}
+        {showEdit && (
           <button 
-            onClick={onClose}
-            className="p-2.5 rounded-xl bg-saas-card border border-saas-border hover:bg-saas-bg text-saas-text-secondary hover:text-saas-text-primary transition-all shadow-sm"
+            onClick={() => navigate(`/members?action=edit&id=${member._id}`)}
+            className="px-4 py-2 rounded-xl bg-saas-primary text-white hover:bg-opacity-90 transition-all shadow-sm shadow-saas-primary/20 flex items-center gap-2 cursor-pointer text-xs font-bold"
           >
-            <X className="w-5 h-5" />
+            <Edit2 className="w-4 h-4" />
+            Edit Profile
           </button>
-        </div>
+        )}
+      </div>
 
-        {/* Scrollable Content Container */}
-        <div className="flex-grow overflow-y-auto pb-12">
+      {/* Main Profile Card */}
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="w-full bg-saas-card border border-saas-border rounded-3xl overflow-hidden shadow-saas-card relative"
+      >
           
           {/* Cover Header Banner */}
           <div className="h-44 bg-gradient-to-r from-saas-primary/20 via-saas-accent/20 to-saas-primary/10 relative overflow-hidden">
@@ -524,9 +526,7 @@ export default function MemberProfile({ memberId, onClose, onEdit }) {
               )}
             </div>
 
-          </div>
         </div>
-
       </motion.div>
     </div>
   );

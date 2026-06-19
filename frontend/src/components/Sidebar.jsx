@@ -27,7 +27,6 @@ export default function Sidebar({ isOpen, setIsOpen }) {
     { name: 'Profile', path: '/members?profileId=root', icon: User },
     { name: 'MailBox', path: '/mail', icon: Mail },
     { name: 'Settings', path: '/settings', icon: Settings },
-    { name: 'Help Hub', path: '/help', icon: HelpCircle },
   ];
 
   const sidebarWidth = isCollapsed ? 'w-20' : 'w-64';

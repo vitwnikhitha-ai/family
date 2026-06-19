@@ -1,29 +1,50 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f8fafc;
-  --card: #ffffff;
-  --text-primary: #0f172a;
-  --text-secondary: #64748b;
-  --border: #e2e8f0;
-  --primary: #2563eb;
-  --accent: #7c3aed;
-  --success: #10b981;
-  --warning: #f59e0b;
+  /* Cinematic Space Aurora Background */
+  --background-image: 
+    radial-gradient(circle at 15% 50%, rgba(0, 255, 255, 0.15), transparent 50%),
+    radial-gradient(circle at 85% 30%, rgba(138, 43, 226, 0.2), transparent 50%),
+    radial-gradient(circle at 50% 80%, rgba(0, 100, 255, 0.15), transparent 50%),
+    linear-gradient(135deg, #020205 0%, #0a0a1a 100%);
+  --background-color: #020205;
+  
+  /* 0-5% transparency floating glass material */
+  --card: rgba(255, 255, 255, 0.02);
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.6);
+  
+  /* Real physical crystal edge reflections */
+  --border: rgba(255, 255, 255, 0.08);
+  --glass-highlight: inset 1px 1px 1px rgba(255, 255, 255, 0.15), inset -1px -1px 20px rgba(0, 0, 0, 0.5);
+
+  --primary: #00ffff;
+  --accent: #8a2be2;
+  --success: #32d74b;
+  --warning: #ff9f0a;
 }
 
 .dark {
-  --background: #090d16;
-  --card: #111827;
-  --text-primary: #f1f5f9;
-  --text-secondary: #9ca3af;
-  --border: #1f2937;
-  --primary: #3b82f6;
-  --accent: #8b5cf6;
+  /* Unified Cinematic Space Theme */
+  --background-image: 
+    radial-gradient(circle at 15% 50%, rgba(0, 255, 255, 0.15), transparent 50%),
+    radial-gradient(circle at 85% 30%, rgba(138, 43, 226, 0.2), transparent 50%),
+    radial-gradient(circle at 50% 80%, rgba(0, 100, 255, 0.15), transparent 50%),
+    linear-gradient(135deg, #020205 0%, #0a0a1a 100%);
+  --background-color: #020205;
+  
+  --card: rgba(255, 255, 255, 0.02);
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.6);
+  --border: rgba(255, 255, 255, 0.08);
+  --glass-highlight: inset 1px 1px 1px rgba(255, 255, 255, 0.15), inset -1px -1px 20px rgba(0, 0, 0, 0.5);
+
+  --primary: #00ffff;
+  --accent: #8a2be2;
 }
 
 @theme {
-  --color-saas-bg: var(--background);
+  --color-saas-bg: var(--background-color);
   --color-saas-card: var(--card);
   --color-saas-text-primary: var(--text-primary);
   --color-saas-text-secondary: var(--text-secondary);
@@ -33,76 +54,102 @@
   --color-saas-success: var(--success);
   --color-saas-warning: var(--warning);
 
-  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', system-ui, sans-serif;
 }
 
 /* Base resets */
 body {
-  background-color: var(--background);
+  background-color: #020205;
+  background-image: url('/image.png');
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
   color: var(--text-primary);
-  font-family: 'Inter', sans-serif;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', sans-serif;
+  min-height: 100vh;
+}
+
+@media (min-width: 768px) {
+  body {
+    background-image: url('/54bebf72-4891-4e30-867a-aa5d59df130c.png');
+  }
 }
 
 /* Premium Scrollbars */
 ::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
+  width: 6px;
+  height: 6px;
 }
 ::-webkit-scrollbar-track {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+  background: rgba(0, 0, 0, 0.2);
   border-radius: 99px;
 }
 .dark ::-webkit-scrollbar-thumb {
-  background: #374151;
+  background: rgba(255, 255, 255, 0.2);
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: rgba(0, 0, 0, 0.4);
+}
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.4);
 }
 
-/* Glassmorphism & Shadow Utilities */
+/* Cinematic Liquid Glass System */
+[class*="bg-saas-card"] {
+  background: var(--card) !important;
+  backdrop-filter: blur(60px) saturate(150%) !important;
+  -webkit-backdrop-filter: blur(60px) saturate(150%) !important;
+  box-shadow: var(--glass-highlight), 0 30px 60px -15px rgba(0, 0, 0, 0.8) !important;
+  border: 1px solid var(--border) !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.15) !important;
+  border-left: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
 .glassmorphism-saas {
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  background: var(--card);
+  backdrop-filter: blur(60px) saturate(150%);
+  -webkit-backdrop-filter: blur(60px) saturate(150%);
+  border: 1px solid var(--border);
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: var(--glass-highlight), 0 30px 60px -15px rgba(0, 0, 0, 0.8);
 }
 
 .dark .glassmorphism-saas {
-  background: rgba(17, 24, 39, 0.7);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .shadow-saas-card {
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.05);
-  border: 1px solid var(--border);
+  box-shadow: var(--glass-highlight), 0 20px 40px -10px rgba(0, 0, 0, 0.5);
 }
 
 .shadow-saas-premium {
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.02), 0 4px 6px -4px rgba(0, 0, 0, 0.02), 0 0 0 1px rgba(0, 0, 0, 0.02);
-  border: 1px solid var(--border);
+  box-shadow: var(--glass-highlight), 0 40px 80px -20px rgba(0, 0, 0, 0.9);
 }
 
 .shadow-saas-hover {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .shadow-saas-hover:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
-  border-color: var(--primary);
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: inset 1px 1px 3px rgba(255, 255, 255, 0.3), inset -1px -1px 20px rgba(0, 0, 0, 0.5), 0 40px 80px -20px rgba(0, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.2);
+  border-top-color: rgba(255, 255, 255, 0.4);
 }
 
-/* Custom grid decorations */
+/* Custom grid decorations removed for cleaner Apple look */
 .grid-bg {
-  background-image: radial-gradient(rgba(148, 163, 184, 0.05) 1px, transparent 0);
-  background-size: 24px 24px;
+  background-image: none;
 }
 .dark .grid-bg {
-  background-image: radial-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 0);
+  background-image: none;
 }
 
 @keyframes tree-dash {

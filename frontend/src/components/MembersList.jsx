@@ -22,7 +22,6 @@ import {
   EyeOff
 } from 'lucide-react';
 import { useAuth, API_URL } from '../context/AuthContext';
-import MemberProfile from './MemberProfile';
 import { calculateRelation } from '../utils/relationCalculator';
 import getProfileImage from '../utils/getProfileImage';
 
@@ -31,7 +30,6 @@ export default function MembersList() {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const profileId = searchParams.get('profileId');
   const actionParam = searchParams.get('action'); // 'add' or 'edit'
   const editIdParam = searchParams.get('id');
 
@@ -307,64 +305,61 @@ export default function MembersList() {
         
       </div>
 
-      {/* Filters & Search Row */}
-      <div className="bg-saas-card p-5 rounded-2xl border border-saas-border shadow-saas-card flex flex-col md:flex-row md:items-center gap-4">
+      {/* Floating Glass Toolbar for Search & Filters */}
+      <div className="bg-white/[0.02] backdrop-blur-3xl p-3 md:p-4 rounded-3xl md:rounded-full border border-white/10 shadow-saas-card flex flex-col md:flex-row md:items-center gap-4">
         
         {/* Search */}
         <div className="relative flex-grow">
-          <Search className="absolute left-3 top-3 w-4 h-4 text-saas-text-secondary" />
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/50" />
           <input 
             type="text"
             placeholder="Search by name, job, city..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-10 pr-4 py-2.5 bg-saas-bg border border-saas-border rounded-xl text-sm focus:outline-none focus:border-saas-primary focus:bg-saas-card transition-all text-saas-text-primary placeholder-saas-text-secondary/60"
+            className="w-full pl-11 pr-4 py-3 bg-white/[0.03] border border-white/[0.08] rounded-full text-sm focus:outline-none focus:border-white/30 focus:bg-white/[0.05] transition-all text-white placeholder-white/40"
           />
         </div>
 
         {/* Filters */}
-        <div className="flex flex-wrap items-center gap-3">
+        <div className="flex flex-wrap items-center gap-3 justify-center">
           
-          {/* Gender */}
           <select 
             value={genderFilter} 
             onChange={(e) => setGenderFilter(e.target.value)}
-            className="px-3 py-2.5 bg-saas-bg border border-saas-border rounded-xl text-xs text-saas-text-secondary focus:outline-none focus:border-saas-primary focus:bg-saas-card transition-all cursor-pointer"
+            className="px-4 py-3 bg-white/[0.03] border border-white/[0.08] rounded-full text-xs text-white/70 focus:outline-none focus:border-white/30 focus:text-white transition-all cursor-pointer appearance-none text-center min-w-[100px]"
           >
-            <option value="">All Genders</option>
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
-            <option value="Other">Other</option>
+            <option value="" className="bg-black text-white">All Genders</option>
+            <option value="Male" className="bg-black text-white">Male</option>
+            <option value="Female" className="bg-black text-white">Female</option>
+            <option value="Other" className="bg-black text-white">Other</option>
           </select>
 
-          {/* Relation */}
           <select 
             value={relationFilter} 
             onChange={(e) => setRelationFilter(e.target.value)}
-            className="px-3 py-2.5 bg-saas-bg border border-saas-border rounded-xl text-xs text-saas-text-secondary focus:outline-none focus:border-saas-primary focus:bg-saas-card transition-all cursor-pointer"
+            className="px-4 py-3 bg-white/[0.03] border border-white/[0.08] rounded-full text-xs text-white/70 focus:outline-none focus:border-white/30 focus:text-white transition-all cursor-pointer appearance-none text-center min-w-[110px]"
           >
-            <option value="">All Relations</option>
-            <option value="Self">Self</option>
-            <option value="Father">Father</option>
-            <option value="Mother">Mother</option>
-            <option value="Spouse">Spouse</option>
-            <option value="Son">Son</option>
-            <option value="Daughter">Daughter</option>
-            <option value="Brother">Brother</option>
-            <option value="Sister">Sister</option>
+            <option value="" className="bg-black text-white">All Relations</option>
+            <option value="Self" className="bg-black text-white">Self</option>
+            <option value="Father" className="bg-black text-white">Father</option>
+            <option value="Mother" className="bg-black text-white">Mother</option>
+            <option value="Spouse" className="bg-black text-white">Spouse</option>
+            <option value="Son" className="bg-black text-white">Son</option>
+            <option value="Daughter" className="bg-black text-white">Daughter</option>
+            <option value="Brother" className="bg-black text-white">Brother</option>
+            <option value="Sister" className="bg-black text-white">Sister</option>
           </select>
 
-          {/* Marital Status */}
           <select 
             value={maritalFilter} 
             onChange={(e) => setMaritalFilter(e.target.value)}
-            className="px-3 py-2.5 bg-saas-bg border border-saas-border rounded-xl text-xs text-saas-text-secondary focus:outline-none focus:border-saas-primary focus:bg-saas-card transition-all cursor-pointer"
+            className="px-4 py-3 bg-white/[0.03] border border-white/[0.08] rounded-full text-xs text-white/70 focus:outline-none focus:border-white/30 focus:text-white transition-all cursor-pointer appearance-none text-center min-w-[110px]"
           >
-            <option value="">All Marital Statuses</option>
-            <option value="Single">Single</option>
-            <option value="Married">Married</option>
-            <option value="Divorced">Divorced</option>
-            <option value="Widowed">Widowed</option>
+            <option value="" className="bg-black text-white">All Statuses</option>
+            <option value="Single" className="bg-black text-white">Single</option>
+            <option value="Married" className="bg-black text-white">Married</option>
+            <option value="Divorced" className="bg-black text-white">Divorced</option>
+            <option value="Widowed" className="bg-black text-white">Widowed</option>
           </select>
           
         </div>
@@ -389,159 +384,113 @@ export default function MembersList() {
             <p className="text-xs mt-1">Try resetting filters or adding new members.</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <div 
+            className="grid gap-6 w-full"
+            style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))' }}
+          >
             {filteredMembers.map((member) => (
               <div 
                 key={member._id} 
-                className="bg-saas-card border border-saas-border rounded-3xl p-6 hover:border-saas-primary/50 transition-all shadow-saas-card group relative flex flex-col hover:-translate-y-1 hover:shadow-2xl hover:shadow-saas-primary/5"
+                className="w-full max-w-[320px] mx-auto bg-white/[0.02] border border-white/10 rounded-[24px] p-6 backdrop-blur-3xl hover:border-white/30 transition-all duration-500 shadow-saas-card group relative flex flex-col items-center hover:-translate-y-2 hover:shadow-2xl h-[400px]"
               >
-                {/* Header: Photo and Info */}
-                <div className="flex items-start gap-4 mb-5">
-                  <div className="w-16 h-16 rounded-2xl bg-saas-bg border-2 border-saas-border overflow-hidden flex-shrink-0 relative">
-                    {getProfileImage(member) ? (
-                      <img 
-                        src={getProfileImage(member)} 
-                        alt={member.fullName} 
-                        className="w-full h-full object-cover"
-                      />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center font-black text-xl text-saas-text-secondary">
-                        {member.fullName.charAt(0)}
-                      </div>
-                    )}
-                    {member.maritalStatus === 'Married' && (
-                      <div className="absolute -bottom-1 -right-1 bg-rose-500 rounded-full p-1 border-2 border-saas-card" title="Married">
-                        <Heart className="w-2.5 h-2.5 text-white fill-white" />
-                      </div>
-                    )}
+                {/* Delete / Edit Actions (Absolute Top Corners) */}
+                {user && (member._id?.toString() === user.memberProfile?.toString() || member.createdBy?.toString() === user.id?.toString()) && (
+                  <div className="absolute top-4 right-4 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity z-10">
+                    <button 
+                      onClick={() => navigate(`/members?action=edit&id=${member._id}`)}
+                      className="p-2 rounded-full bg-white/5 hover:bg-white/20 text-white/50 hover:text-white transition-all"
+                      title="Edit Member"
+                    >
+                      <Edit3 className="w-3.5 h-3.5" />
+                    </button>
+                    <button 
+                      onClick={() => handleDelete(member._id, member.fullName)}
+                      className="p-2 rounded-full bg-white/5 hover:bg-rose-500/20 text-white/50 hover:text-rose-400 transition-all"
+                      title="Delete Member"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" />
+                    </button>
                   </div>
-                  
-                  <div className="flex-grow min-w-0">
-                    <h3 className="font-extrabold text-lg text-saas-text-primary truncate" title={member.fullName}>
-                      {member.fullName}
-                    </h3>
-                    <div className="flex flex-wrap items-center gap-1.5 mt-1.5">
-                      <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-black bg-purple-500/10 text-purple-400 border border-purple-500/20 uppercase tracking-wider">
-                        {member.computedRelation || member.relation}
-                      </span>
-                      <span className={`text-[9px] font-black px-2 py-0.5 rounded-md uppercase tracking-wider ${member.gender === 'Male' ? 'bg-blue-500/10 text-blue-400 border border-blue-500/20' : 'bg-pink-500/10 text-pink-400 border border-pink-500/20'}`}>
-                        {member.gender}
-                      </span>
+                )}
+
+                {/* Top: Avatar */}
+                <div className="w-20 h-20 rounded-full bg-white/5 border border-white/10 overflow-hidden flex-shrink-0 relative mb-3 flex items-center justify-center">
+                  {getProfileImage(member) ? (
+                    <img 
+                      src={getProfileImage(member)} 
+                      alt={member.fullName} 
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <span className="font-bold text-2xl text-white/50">
+                      {member.fullName.charAt(0)}
+                    </span>
+                  )}
+                  {member.maritalStatus === 'Married' && (
+                    <div className="absolute bottom-[-2px] right-[-2px] bg-rose-500 rounded-full p-1 border-2 border-transparent" title="Married">
+                      <Heart className="w-2.5 h-2.5 text-white fill-white" />
                     </div>
+                  )}
+                </div>
+                
+                {/* Center: Name & Badges */}
+                <div className="text-center w-full mb-5">
+                  <h3 className="font-bold text-lg text-white tracking-wide truncate px-2" title={member.fullName}>
+                    {member.fullName}
+                  </h3>
+                  <div className="flex flex-wrap justify-center items-center gap-2 mt-2">
+                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-white/10 text-white/80 border border-white/10 uppercase tracking-widest">
+                      {member.computedRelation || member.relation}
+                    </span>
                   </div>
                 </div>
 
-                {/* Body info */}
-                <div className="space-y-3.5 mb-6 text-xs text-saas-text-secondary flex-grow">
+                {/* Middle: Details List */}
+                <div className="w-full space-y-3 text-[13px] text-white/70 mb-5 flex-grow flex flex-col justify-center">
                   
                   {/* Phone */}
-                  <div className="flex items-center gap-3">
-                    <div className="w-7 h-7 rounded-lg bg-saas-bg border border-saas-border flex items-center justify-center flex-shrink-0 text-saas-primary">
-                      <Phone className="w-3.5 h-3.5" />
-                    </div>
+                  <div className="flex items-center gap-3 px-2">
+                    <Phone className="w-3.5 h-3.5 text-white/50 flex-shrink-0" />
                     {member.isPhonePrivate ? (
                       <div className="flex items-center gap-1.5 overflow-hidden">
-                        <Lock className={`w-3.5 h-3.5 flex-shrink-0 ${member._id === user?.memberProfile ? 'text-saas-warning' : 'text-slate-500'}`} />
+                        <Lock className={`w-3.5 h-3.5 flex-shrink-0 ${member._id === user?.memberProfile ? 'text-white/70' : 'text-white/30'}`} />
                         <span className="italic truncate">{member._id === user?.memberProfile ? member.phoneNumber : 'Hidden'}</span>
                       </div>
                     ) : (
-                      <span className="truncate text-saas-text-primary font-medium">{member.phoneNumber}</span>
+                      <span className="truncate font-medium">{member.phoneNumber || '-'}</span>
                     )}
                   </div>
 
                   {/* DOB */}
-                  <div className="flex items-center gap-3">
-                    <div className="w-7 h-7 rounded-lg bg-saas-bg border border-saas-border flex items-center justify-center flex-shrink-0 text-saas-primary">
-                      <Calendar className="w-3.5 h-3.5" />
-                    </div>
+                  <div className="flex items-center gap-3 px-2">
+                    <Calendar className="w-3.5 h-3.5 text-white/50 flex-shrink-0" />
                     {member.isDobPrivate ? (
                       <div className="flex items-center gap-1.5 overflow-hidden">
-                        <Lock className={`w-3.5 h-3.5 flex-shrink-0 ${member._id === user?.memberProfile ? 'text-saas-warning' : 'text-slate-500'}`} />
+                        <Lock className={`w-3.5 h-3.5 flex-shrink-0 ${member._id === user?.memberProfile ? 'text-white/70' : 'text-white/30'}`} />
                         <span className="italic truncate">{member._id === user?.memberProfile ? (member.dateOfBirth ? new Date(member.dateOfBirth).toLocaleDateString() : '-') : 'Hidden'}</span>
                       </div>
                     ) : (
-                      <span className="truncate text-saas-text-primary font-medium">{member.dateOfBirth ? new Date(member.dateOfBirth).toLocaleDateString() : '-'}</span>
+                      <span className="truncate font-medium">{member.dateOfBirth ? new Date(member.dateOfBirth).toLocaleDateString() : '-'}</span>
                     )}
                   </div>
 
-                  {/* Occupation */}
-                  <div className="flex items-center gap-3">
-                    <div className="w-7 h-7 rounded-lg bg-saas-bg border border-saas-border flex items-center justify-center flex-shrink-0 text-saas-primary">
-                      <Briefcase className="w-3.5 h-3.5" />
-                    </div>
-                    {member.isOccupationPrivate ? (
-                      <div className="flex items-center gap-1.5 overflow-hidden">
-                        <Lock className={`w-3.5 h-3.5 flex-shrink-0 ${member._id === user?.memberProfile ? 'text-saas-warning' : 'text-slate-500'}`} />
-                        <span className="italic truncate">{member._id === user?.memberProfile ? member.occupation : 'Hidden'}</span>
-                      </div>
-                    ) : (
-                      <span className="truncate text-saas-text-primary font-medium">{member.occupation}</span>
-                    )}
+                  {/* Gender */}
+                  <div className="flex items-center gap-3 px-2">
+                    <div className="w-3.5 h-3.5 flex items-center justify-center text-white/50 flex-shrink-0 font-bold text-[10px] border border-white/50 rounded-full">G</div>
+                    <span className="truncate font-medium">{member.gender || '-'}</span>
                   </div>
 
-                  {/* Address */}
-                  <div className="flex items-center gap-3">
-                    <div className="w-7 h-7 rounded-lg bg-saas-bg border border-saas-border flex items-center justify-center flex-shrink-0 text-saas-primary">
-                      <MapPin className="w-3.5 h-3.5" />
-                    </div>
-                    {member.isAddressPrivate ? (
-                      <div className="flex items-center gap-1.5 overflow-hidden">
-                        <Lock className={`w-3.5 h-3.5 flex-shrink-0 ${member._id === user?.memberProfile ? 'text-saas-warning' : 'text-slate-500'}`} />
-                        <span className="italic truncate">{member._id === user?.memberProfile ? member.address : 'Hidden'}</span>
-                      </div>
-                    ) : (
-                      <span className="truncate text-saas-text-primary font-medium">{member.address}</span>
-                    )}
-                  </div>
-
-                  {/* Custom Fields block */}
-                  {member.customFields && member.customFields.length > 0 && (
-                    <div className="pt-3 mt-3 border-t border-saas-border/40 flex flex-wrap gap-2">
-                      {member.customFields.map((field, idx) => (
-                        <div key={idx} className="flex items-center gap-1 bg-saas-bg px-2.5 py-1.5 rounded-lg text-[10px] border border-saas-border shadow-sm max-w-full">
-                          <span className="font-bold text-saas-text-secondary truncate">{field.key}:</span>
-                          <span className="font-extrabold text-saas-text-primary truncate">
-                            {field.isPrivate && member._id !== user?.memberProfile ? (
-                              <Lock className="w-2.5 h-2.5 inline text-slate-500" />
-                            ) : field.value}
-                          </span>
-                          {field.isPrivate && member._id === user?.memberProfile && (
-                            <Lock className="w-2.5 h-2.5 text-saas-warning ml-0.5" title="Private" />
-                          )}
-                        </div>
-                      ))}
-                    </div>
-                  )}
                 </div>
 
-                {/* Actions */}
-                <div className="pt-4 border-t border-saas-border flex items-center justify-between gap-2 mt-auto">
+                {/* Bottom: View Details Button */}
+                <div className="w-full mt-auto">
                   <button 
-                    onClick={() => navigate(`/members?profileId=${member._id}`)}
-                    className="flex-1 py-2.5 rounded-xl bg-saas-primary text-white hover:bg-opacity-90 shadow-md shadow-saas-primary/20 transition-all font-bold text-xs flex items-center justify-center gap-2"
+                    onClick={() => navigate(`/profile/${member._id}`)}
+                    className="w-full py-2.5 rounded-xl bg-white/5 hover:bg-white/15 border border-white/10 text-white transition-all font-semibold text-[13px] flex items-center justify-center gap-2 group-hover:border-white/30"
                   >
-                    <Eye className="w-4 h-4" />
+                    <Eye className="w-4 h-4 opacity-70" />
                     View Details
                   </button>
-                  
-                  {user && (member._id?.toString() === user.memberProfile?.toString() || member.createdBy?.toString() === user.id?.toString()) && (
-                    <>
-                      <button 
-                        onClick={() => navigate(`/members?action=edit&id=${member._id}`)}
-                        className="p-2.5 rounded-xl bg-saas-bg hover:bg-saas-primary/10 text-saas-text-secondary hover:text-saas-primary border border-saas-border hover:border-saas-primary/20 transition-all"
-                        title="Edit Member"
-                      >
-                        <Edit3 className="w-4 h-4" />
-                      </button>
-                      <button 
-                        onClick={() => handleDelete(member._id, member.fullName)}
-                        className="p-2.5 rounded-xl bg-saas-bg hover:bg-rose-500/10 text-saas-text-secondary hover:text-rose-500 border border-saas-border hover:border-rose-500/20 transition-all"
-                        title="Delete Member"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </button>
-                    </>
-                  )}
                 </div>
               </div>
             ))}
@@ -942,17 +891,6 @@ export default function MembersList() {
               </div>
             </motion.div>
           </>
-        )}
-      </AnimatePresence>
-
-      {/* Details View (Member Profile Modal/Overlay) */}
-      <AnimatePresence>
-        {profileId && (
-          <MemberProfile 
-            memberId={profileId} 
-            onClose={() => navigate('/members')} 
-            onEdit={(id) => navigate(`/members?action=edit&id=${id}`)}
-          />
         )}
       </AnimatePresence>
 

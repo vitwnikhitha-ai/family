@@ -96,7 +96,7 @@ class MockModel {
   async findOne(query = {}) {
     const db = loadJsonDb();
     const item = db[this.collectionName].find(item => matchQuery(item, query));
-    return item ? { ...item } : null;
+    return item ? new QueryDocument(item, this.collectionName) : null;
   }
 
   async findById(id) {
@@ -142,6 +142,22 @@ class MockModel {
     db[this.collectionName].splice(index, 1);
     saveJsonDb(db);
     return item;
+  }
+
+  async updateMany(query, updateData) {
+    const db = loadJsonDb();
+    let updatedCount = 0;
+    const items = db[this.collectionName];
+    for (let i = 0; i < items.length; i++) {
+      if (matchQuery(items[i], query)) {
+        let updates = updateData;
+        if (updateData.$set) updates = updateData.$set;
+        db[this.collectionName][i] = { ...items[i], ...updates, updatedAt: new Date().toISOString() };
+        updatedCount++;
+      }
+    }
+    if (updatedCount > 0) saveJsonDb(db);
+    return { modifiedCount: updatedCount };
   }
 
   async countDocuments(query = {}) {
