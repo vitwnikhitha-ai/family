@@ -6,6 +6,7 @@ export default function getProfileImage(member) {
   if (name.includes('nikhitha') || name.includes('nikhiltha')) return '/nikhiltha.jpeg';
   if (name.includes('praveen')) return '/praveen.jpeg';
   if (name.includes('swarna') || name.includes('kumari')) return '/swarna kumari.jpeg';
+  if (name.includes('nageswarao') || name.includes('nageswararao')) return '/nageswarao.jpg';
   
   if (member.profilePhoto) {
     if (member.profilePhoto.startsWith('/uploads/')) {

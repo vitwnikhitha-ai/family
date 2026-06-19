@@ -111,7 +111,7 @@ export default function Documents() {
               onClick={() => setCategoryFilter(cat)}
               className={`px-3.5 py-2 rounded-xl text-xs font-semibold border transition-all ${
                 categoryFilter === cat 
-                  ? 'bg-primary-600 text-white border-primary-600 shadow-md shadow-primary-100' 
+                  ? 'bg-primary-600 text-black border-primary-600 shadow-md shadow-primary-100' 
                   : 'bg-white border-slate-200/60 text-slate-500 hover:bg-slate-50'
               }`}
             >

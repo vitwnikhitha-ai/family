@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { 
   X, 
   Phone, 
@@ -50,6 +50,7 @@ export default function MemberProfile() {
   // Notes state
   const [notes, setNotes] = useState('');
   const [savingNotes, setSavingNotes] = useState(false);
+  const [isImageExpanded, setIsImageExpanded] = useState(false);
 
   useEffect(() => {
     async function fetchDetails() {
@@ -183,7 +184,7 @@ export default function MemberProfile() {
       <div className="flex items-center justify-center min-h-[50vh]">
         <div className="flex flex-col items-center gap-3">
           <div className="w-8 h-8 rounded-full border-2 border-saas-primary border-t-transparent animate-spin" />
-          <p className="text-xs font-bold text-saas-text-secondary uppercase tracking-wider">Syncing Vault...</p>
+          <p className="text-xs font-bold text-black/70 uppercase tracking-wider">Syncing Vault...</p>
         </div>
       </div>
     );
@@ -194,7 +195,7 @@ export default function MemberProfile() {
       <div className="flex items-center justify-center min-h-[50vh]">
         <div className="bg-saas-card border border-saas-border rounded-3xl p-8 flex flex-col items-center gap-4 text-center max-w-sm">
           <span className="text-rose-500 font-extrabold text-sm">Profile Load Failed</span>
-          <p className="text-xs text-saas-text-secondary">{error || 'Record is missing.'}</p>
+          <p className="text-xs text-black/70">{error || 'Record is missing.'}</p>
           <button onClick={() => navigate('/members')} className="px-5 py-2 bg-saas-bg rounded-xl border border-saas-border text-xs font-semibold hover:bg-saas-border/50 transition-colors cursor-pointer">
             Return to Directory
           </button>
@@ -213,7 +214,7 @@ export default function MemberProfile() {
       <div className="flex items-center justify-between">
         <button 
           onClick={() => navigate('/members')}
-          className="px-4 py-2 rounded-xl bg-saas-card border border-saas-border hover:bg-saas-bg text-saas-text-secondary hover:text-saas-text-primary transition-all shadow-sm flex items-center gap-2 cursor-pointer text-xs font-bold"
+          className="px-4 py-2 rounded-xl bg-saas-card border border-saas-border hover:bg-saas-bg text-black/70 hover:text-black transition-all shadow-sm flex items-center gap-2 cursor-pointer text-xs font-bold"
         >
           <X className="w-4 h-4" />
           Back to Members
@@ -222,7 +223,7 @@ export default function MemberProfile() {
         {showEdit && (
           <button 
             onClick={() => navigate(`/members?action=edit&id=${member._id}`)}
-            className="px-4 py-2 rounded-xl bg-saas-primary text-white hover:bg-opacity-90 transition-all shadow-sm shadow-saas-primary/20 flex items-center gap-2 cursor-pointer text-xs font-bold"
+            className="px-4 py-2 rounded-xl bg-saas-primary text-black hover:bg-opacity-90 transition-all shadow-sm shadow-saas-primary/20 flex items-center gap-2 cursor-pointer text-xs font-bold"
           >
             <Edit2 className="w-4 h-4" />
             Edit Profile
@@ -247,7 +248,10 @@ export default function MemberProfile() {
             <div className="flex flex-col sm:flex-row sm:items-end gap-5">
               
               {/* Avatar circle */}
-              <div className="w-28 h-28 rounded-full border-4 border-saas-card bg-saas-card shadow-lg overflow-hidden flex items-center justify-center relative z-10 flex-shrink-0">
+              <div 
+                className="w-28 h-28 rounded-full border-4 border-saas-card bg-saas-card shadow-lg overflow-hidden flex items-center justify-center relative z-10 flex-shrink-0 cursor-pointer"
+                onClick={() => setIsImageExpanded(true)}
+              >
                 {getProfileImage(member) ? (
                   <img 
                     src={getProfileImage(member)} 
@@ -255,21 +259,21 @@ export default function MemberProfile() {
                     className="w-full h-full object-cover"
                   />
                 ) : (
-                  <span className="font-black text-3xl text-saas-text-secondary">
+                  <span className="font-black text-3xl text-black/70">
                     {member.fullName.charAt(0)}
                   </span>
                 )}
               </div>
 
               <div>
-                <h2 className="text-2xl font-black text-saas-text-primary tracking-tight leading-tight">
+                <h2 className="text-2xl font-black text-black tracking-tight leading-tight">
                   {member.fullName}
                 </h2>
                 <div className="flex flex-wrap items-center gap-2 mt-2">
                   <span className="text-[9px] font-black text-saas-primary bg-saas-primary/10 px-2 py-0.5 rounded-md uppercase tracking-wider">
                     {member.relation}
                   </span>
-                  <span className="text-[9px] font-bold text-saas-text-secondary bg-saas-bg border border-saas-border px-2 py-0.5 rounded-md">
+                  <span className="text-[9px] font-bold text-black/70 bg-saas-bg border border-saas-border px-2 py-0.5 rounded-md">
                     {member.gender}
                   </span>
                   {member.maritalStatus === 'Married' && (
@@ -293,21 +297,21 @@ export default function MemberProfile() {
                   <Shield className="w-5 h-5" />
                 </div>
                 <div>
-                  <h4 className="font-extrabold text-xs text-saas-text-primary uppercase tracking-wide">Aadhaar Identification</h4>
-                  <p className="text-[10px] text-saas-text-secondary leading-none mt-1">Encrypted personal identity number.</p>
+                  <h4 className="font-extrabold text-xs text-black uppercase tracking-wide">Aadhaar Identification</h4>
+                  <p className="text-[10px] text-black/70 leading-none mt-1">Encrypted personal identity number.</p>
                 </div>
               </div>
 
               {/* Reveal controllers */}
               {member.isAadhaarPrivate && !isOwner ? (
-                <div className="flex items-center gap-1.5 text-[10px] font-bold text-saas-text-secondary bg-saas-bg border border-saas-border px-3 py-1.5 rounded-lg">
+                <div className="flex items-center gap-1.5 text-[10px] font-bold text-black/70 bg-saas-bg border border-saas-border px-3 py-1.5 rounded-lg">
                   <Lock className="w-3.5 h-3.5" />
                   <span>Hidden (Private Field)</span>
                 </div>
               ) : (
                 <button 
                   onClick={() => setRevealAadhaar(!revealAadhaar)}
-                  className="flex items-center gap-1.5 bg-saas-card border border-saas-border hover:bg-saas-bg text-saas-text-secondary hover:text-saas-text-primary font-bold text-xs px-3.5 py-2 rounded-xl transition-all shadow-sm"
+                  className="flex items-center gap-1.5 bg-saas-card border border-saas-border hover:bg-saas-bg text-black/70 hover:text-black font-bold text-xs px-3.5 py-2 rounded-xl transition-all shadow-sm"
                 >
                   {revealAadhaar ? (
                     <>
@@ -327,7 +331,7 @@ export default function MemberProfile() {
                 <motion.div 
                   initial={{ opacity: 0, scale: 0.98 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  className="font-black text-sm text-saas-text-primary bg-saas-card border border-saas-primary/30 px-4 py-2 rounded-xl"
+                  className="font-black text-sm text-black bg-saas-card border border-saas-primary/30 px-4 py-2 rounded-xl"
                 >
                   {member.aadhaarNumber || 'Not provided'}
                 </motion.div>
@@ -341,8 +345,8 @@ export default function MemberProfile() {
               <div className="bg-saas-card border border-saas-border/60 p-4.5 rounded-2xl shadow-saas-card flex gap-3.5">
                 <Calendar className="w-4.5 h-4.5 text-saas-primary flex-shrink-0 mt-0.5" />
                 <div>
-                  <span className="text-[9px] font-bold text-saas-text-secondary uppercase tracking-wider">Date of Birth</span>
-                  <p className="font-extrabold text-xs text-saas-text-primary mt-1">
+                  <span className="text-[9px] font-bold text-black/70 uppercase tracking-wider">Date of Birth</span>
+                  <p className="font-extrabold text-xs text-black mt-1">
                     {member.isDobPrivate && !isOwner ? 'Hidden (Private)' : (member.dateOfBirth ? new Date(member.dateOfBirth).toLocaleDateString() : 'N/A')}
                   </p>
                 </div>
@@ -352,8 +356,8 @@ export default function MemberProfile() {
               <div className="bg-saas-card border border-saas-border/60 p-4.5 rounded-2xl shadow-saas-card flex gap-3.5">
                 <Phone className="w-4.5 h-4.5 text-saas-primary flex-shrink-0 mt-0.5" />
                 <div>
-                  <span className="text-[9px] font-bold text-saas-text-secondary uppercase tracking-wider">Phone Number</span>
-                  <p className="font-extrabold text-xs text-saas-text-primary mt-1">
+                  <span className="text-[9px] font-bold text-black/70 uppercase tracking-wider">Phone Number</span>
+                  <p className="font-extrabold text-xs text-black mt-1">
                     {member.isPhonePrivate && !isOwner ? 'Hidden (Private)' : (member.phoneNumber || 'N/A')}
                   </p>
                 </div>
@@ -363,8 +367,8 @@ export default function MemberProfile() {
               <div className="bg-saas-card border border-saas-border/60 p-4.5 rounded-2xl shadow-saas-card flex gap-3.5">
                 <Briefcase className="w-4.5 h-4.5 text-saas-primary flex-shrink-0 mt-0.5" />
                 <div>
-                  <span className="text-[9px] font-bold text-saas-text-secondary uppercase tracking-wider">Occupation</span>
-                  <p className="font-extrabold text-xs text-saas-text-primary mt-1">
+                  <span className="text-[9px] font-bold text-black/70 uppercase tracking-wider">Occupation</span>
+                  <p className="font-extrabold text-xs text-black mt-1">
                     {member.isOccupationPrivate && !isOwner ? 'Hidden (Private)' : (member.occupation || 'N/A')}
                   </p>
                 </div>
@@ -374,8 +378,8 @@ export default function MemberProfile() {
               <div className="bg-saas-card border border-saas-border/60 p-4.5 rounded-2xl shadow-saas-card flex gap-3.5">
                 <MapPin className="w-4.5 h-4.5 text-saas-primary flex-shrink-0 mt-0.5" />
                 <div>
-                  <span className="text-[9px] font-bold text-saas-text-secondary uppercase tracking-wider">Address</span>
-                  <p className="font-extrabold text-xs text-saas-text-primary mt-1">
+                  <span className="text-[9px] font-bold text-black/70 uppercase tracking-wider">Address</span>
+                  <p className="font-extrabold text-xs text-black mt-1">
                     {member.isAddressPrivate && !isOwner ? 'Hidden (Private)' : (member.address || 'N/A')}
                   </p>
                 </div>
@@ -386,12 +390,12 @@ export default function MemberProfile() {
             {/* Custom key-value fields list */}
             {member.customFields && member.customFields.length > 0 && (
               <div className="space-y-3">
-                <h4 className="font-extrabold text-xs text-saas-text-primary uppercase tracking-wider">Additional Attributes</h4>
+                <h4 className="font-extrabold text-xs text-black uppercase tracking-wider">Additional Attributes</h4>
                 <div className="grid grid-cols-2 gap-4">
                   {member.customFields.map((field, idx) => (
                     <div key={idx} className="bg-saas-card border border-saas-border p-3.5 rounded-xl flex items-center justify-between text-xs">
-                      <span className="text-saas-text-secondary font-semibold">{field.key}:</span>
-                      <span className="font-bold text-saas-text-primary">
+                      <span className="text-black/70 font-semibold">{field.key}:</span>
+                      <span className="font-bold text-black">
                         {field.isPrivate && !isOwner ? 'Hidden (Private)' : field.value}
                       </span>
                     </div>
@@ -402,15 +406,15 @@ export default function MemberProfile() {
 
             {/* Lineage Timeline Section */}
             <div className="space-y-4">
-              <h4 className="font-extrabold text-xs text-saas-text-primary uppercase tracking-wider">Ancestral Connections</h4>
+              <h4 className="font-extrabold text-xs text-black uppercase tracking-wider">Ancestral Connections</h4>
               
               <div className="border border-saas-border rounded-2xl divide-y divide-saas-border overflow-hidden bg-saas-card">
                 
                 {/* Father */}
                 <div className="p-3.5 flex items-center justify-between text-xs">
-                  <span className="text-saas-text-secondary font-semibold">Father Link</span>
+                  <span className="text-black/70 font-semibold">Father Link</span>
                   {member.father ? (
-                    <span className="font-extrabold text-saas-text-primary">{member.father.fullName || member.father}</span>
+                    <span className="font-extrabold text-black">{member.father.fullName || member.father}</span>
                   ) : (
                     <span className="text-slate-400 italic">Unlinked</span>
                   )}
@@ -418,9 +422,9 @@ export default function MemberProfile() {
 
                 {/* Mother */}
                 <div className="p-3.5 flex items-center justify-between text-xs">
-                  <span className="text-saas-text-secondary font-semibold">Mother Link</span>
+                  <span className="text-black/70 font-semibold">Mother Link</span>
                   {member.mother ? (
-                    <span className="font-extrabold text-saas-text-primary">{member.mother.fullName || member.mother}</span>
+                    <span className="font-extrabold text-black">{member.mother.fullName || member.mother}</span>
                   ) : (
                     <span className="text-slate-400 italic">Unlinked</span>
                   )}
@@ -428,9 +432,9 @@ export default function MemberProfile() {
 
                 {/* Spouse */}
                 <div className="p-3.5 flex items-center justify-between text-xs">
-                  <span className="text-saas-text-secondary font-semibold">Spouse Link</span>
+                  <span className="text-black/70 font-semibold">Spouse Link</span>
                   {member.spouse ? (
-                    <span className="font-extrabold text-saas-text-primary">{member.spouse.fullName || member.spouse}</span>
+                    <span className="font-extrabold text-black">{member.spouse.fullName || member.spouse}</span>
                   ) : (
                     <span className="text-slate-400 italic">Unlinked</span>
                   )}
@@ -443,7 +447,7 @@ export default function MemberProfile() {
             <div className="space-y-4">
               <div className="flex items-center gap-2">
                 <FileCheck className="w-4 h-4 text-saas-primary" />
-                <h4 className="font-extrabold text-xs text-saas-text-primary uppercase tracking-wider">Documents Vault</h4>
+                <h4 className="font-extrabold text-xs text-black uppercase tracking-wider">Documents Vault</h4>
               </div>
 
               {/* Upload forms */}
@@ -456,19 +460,19 @@ export default function MemberProfile() {
                       placeholder="Document Name (e.g. Birth Certificate)"
                       value={docName}
                       onChange={(e) => setDocName(e.target.value)}
-                      className="px-3 py-1.5 border border-saas-border bg-saas-card rounded-xl text-xs focus:outline-none focus:border-saas-primary text-saas-text-primary"
+                      className="px-3 py-1.5 border border-saas-border bg-saas-card rounded-xl text-xs focus:outline-none focus:border-saas-primary text-black"
                     />
                     <input 
                       type="file"
                       required
                       onChange={(e) => setDocFile(e.target.files[0])}
-                      className="text-xs text-saas-text-secondary mt-1 file:mr-2 file:py-1 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-saas-primary/15 file:text-saas-primary file:cursor-pointer"
+                      className="text-xs text-black/70 mt-1 file:mr-2 file:py-1 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-saas-primary/15 file:text-saas-primary file:cursor-pointer"
                     />
                   </div>
                   <button
                     type="submit"
                     disabled={uploadingDoc || !docFile || !docName.trim()}
-                    className="self-end py-1.5 px-4 bg-saas-primary hover:bg-opacity-95 text-white rounded-xl text-[10px] font-extrabold shadow-sm flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
+                    className="self-end py-1.5 px-4 bg-saas-primary hover:bg-opacity-95 text-black rounded-xl text-[10px] font-extrabold shadow-sm flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
                   >
                     <Plus className="w-3.5 h-3.5" />
                     <span>{uploadingDoc ? 'Uploading...' : 'Upload File'}</span>
@@ -483,8 +487,8 @@ export default function MemberProfile() {
                     <div className="flex items-center gap-3 overflow-hidden">
                       <FileText className="w-5 h-5 text-saas-primary flex-shrink-0" />
                       <div className="overflow-hidden">
-                        <p className="font-extrabold text-saas-text-primary truncate">{doc.name}</p>
-                        <span className="text-[9px] text-saas-text-secondary mt-0.5 block">Uploaded {new Date(doc.uploadedAt).toLocaleDateString()}</span>
+                        <p className="font-extrabold text-black truncate">{doc.name}</p>
+                        <span className="text-[9px] text-black/70 mt-0.5 block">Uploaded {new Date(doc.uploadedAt).toLocaleDateString()}</span>
                       </div>
                     </div>
 
@@ -500,7 +504,7 @@ export default function MemberProfile() {
                       {showEdit && (
                         <button 
                           onClick={() => handleDocDelete(doc._id)}
-                          className="p-1 rounded-md text-saas-text-secondary hover:text-rose-500 hover:bg-rose-500/10"
+                          className="p-1 rounded-md text-black/70 hover:text-rose-500 hover:bg-rose-500/10"
                         >
                           <Trash2 className="w-3.5 h-3.5" />
                         </button>
@@ -519,20 +523,20 @@ export default function MemberProfile() {
 
             {/* Notes Section */}
             <div className="space-y-3 border-t border-saas-border/40 pt-6">
-              <h4 className="font-extrabold text-xs text-saas-text-primary uppercase tracking-wider">Biography & Notes</h4>
+              <h4 className="font-extrabold text-xs text-black uppercase tracking-wider">Biography & Notes</h4>
               <textarea 
                 rows="4"
                 disabled={!showEdit}
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
-                className="w-full p-4 border border-saas-border bg-saas-card rounded-2xl text-xs focus:outline-none focus:border-saas-primary text-saas-text-primary leading-relaxed shadow-sm disabled:bg-saas-bg/50"
+                className="w-full p-4 border border-saas-border bg-saas-card rounded-2xl text-xs focus:outline-none focus:border-saas-primary text-black leading-relaxed shadow-sm disabled:bg-saas-bg/50"
                 placeholder="Write notes about this family member..."
               />
               {showEdit && (
                 <button
                   onClick={handleSaveNotes}
                   disabled={savingNotes}
-                  className="py-2 px-5 bg-saas-primary hover:bg-opacity-95 text-white rounded-xl text-xs font-bold shadow-md shadow-saas-primary/10 flex items-center gap-1.5 cursor-pointer ml-auto"
+                  className="py-2 px-5 bg-saas-primary hover:bg-opacity-95 text-black rounded-xl text-xs font-bold shadow-md shadow-saas-primary/10 flex items-center gap-1.5 cursor-pointer ml-auto"
                 >
                   <span>{savingNotes ? 'Saving...' : 'Save Notes'}</span>
                 </button>
@@ -541,6 +545,35 @@ export default function MemberProfile() {
 
         </div>
       </motion.div>
+
+      {/* Fullscreen Image Modal */}
+      <AnimatePresence>
+        {isImageExpanded && getProfileImage(member) && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[9999] bg-black/90 backdrop-blur-md flex items-center justify-center p-4 cursor-pointer"
+            onClick={() => setIsImageExpanded(false)}
+          >
+            <motion.img 
+              initial={{ scale: 0.8 }}
+              animate={{ scale: 1 }}
+              exit={{ scale: 0.8 }}
+              src={getProfileImage(member)} 
+              alt={member.fullName} 
+              className="max-w-full max-h-[90vh] object-contain rounded-xl shadow-2xl cursor-default"
+              onClick={(e) => e.stopPropagation()}
+            />
+            <button 
+              className="absolute top-6 right-6 text-white/70 hover:text-white p-2 bg-white/10 rounded-full transition-colors cursor-pointer"
+              onClick={() => setIsImageExpanded(false)}
+            >
+              <X className="w-6 h-6" />
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
