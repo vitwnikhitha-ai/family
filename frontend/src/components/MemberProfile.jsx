@@ -566,7 +566,7 @@ export default function MemberProfile() {
               onClick={(e) => e.stopPropagation()}
             />
             <button 
-              className="absolute top-6 right-6 text-white/70 hover:text-white p-2 bg-white/10 rounded-full transition-colors cursor-pointer"
+              className="absolute top-6 right-6 text-black/ hover:text-black p-2 bg-white/10 rounded-full transition-colors cursor-pointer"
               onClick={() => setIsImageExpanded(false)}
             >
               <X className="w-6 h-6" />

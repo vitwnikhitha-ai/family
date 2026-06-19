@@ -9,10 +9,9 @@
     linear-gradient(135deg, #020205 0%, #0a0a1a 100%);
   --background-color: #020205;
   
-  /* 0-5% transparency floating glass material */
   --card: rgba(255, 255, 255, 0.02);
-  --text-primary: #ffffff;
-  --text-secondary: rgba(255, 255, 255, 0.6);
+  --text-primary: #000000;
+  --text-secondary: rgba(0, 0, 0, 0.7);
   
   /* Real physical crystal edge reflections */
   --border: rgba(255, 255, 255, 0.08);
@@ -34,8 +33,8 @@
   --background-color: #020205;
   
   --card: rgba(255, 255, 255, 0.02);
-  --text-primary: #ffffff;
-  --text-secondary: rgba(255, 255, 255, 0.6);
+  --text-primary: #000000;
+  --text-secondary: rgba(0, 0, 0, 0.7);
   --border: rgba(255, 255, 255, 0.08);
   --glass-highlight: inset 1px 1px 1px rgba(255, 255, 255, 0.15), inset -1px -1px 20px rgba(0, 0, 0, 0.5);
 

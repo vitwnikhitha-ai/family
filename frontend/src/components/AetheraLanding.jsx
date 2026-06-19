@@ -28,7 +28,7 @@ export default function AetheraLanding() {
             {/* CTA */}
             <button 
               onClick={() => navigate('/login')}
-              className="rounded-full px-6 py-2.5 text-sm bg-[#000000] text-white hover:scale-105 transition-transform"
+              className="rounded-full px-6 py-2.5 text-sm bg-[#000000] text-black hover:scale-105 transition-transform"
             >
               Begin Journey
             </button>
