@@ -7,9 +7,38 @@ import { authenticateToken, JWT_SECRET } from '../middleware/auth.js';
 const router = express.Router();
 
 /**
- * @route   POST /api/auth/register
- * @desc    Register a new user
- * @access  Public (First user becomes Admin, subsequent users default to Family Member)
+ * @swagger
+ * /api/auth/register:
+ *   post:
+ *     summary: Register a new user
+ *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - username
+ *               - password
+ *             properties:
+ *               username:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *               role:
+ *                 type: string
+ *                 description: Admin or Family Member
+ *               memberProfileId:
+ *                 type: string
+ *                 description: ID of associated member profile
+ *     responses:
+ *       201:
+ *         description: User registered successfully
+ *       400:
+ *         description: Bad request
+ *       409:
+ *         description: Username is already taken
  */
 router.post('/register', async (req, res) => {
   try {
@@ -57,9 +86,39 @@ router.post('/register', async (req, res) => {
 });
 
 /**
- * @route   POST /api/auth/login
- * @desc    Authenticate user & get token
- * @access  Public
+ * @swagger
+ * /api/auth/login:
+ *   post:
+ *     summary: Authenticate user & get token
+ *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - username
+ *               - password
+ *             properties:
+ *               username:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Login successful
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 token:
+ *                   type: string
+ *                 user:
+ *                   type: object
+ *       400:
+ *         description: Invalid credentials
  */
 router.post('/login', async (req, res) => {
   try {
@@ -113,9 +172,20 @@ router.post('/login', async (req, res) => {
 });
 
 /**
- * @route   GET /api/auth/me
- * @desc    Get current user profile
- * @access  Private
+ * @swagger
+ * /api/auth/me:
+ *   get:
+ *     summary: Get current user profile
+ *     tags: [Auth]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: User details
+ *       401:
+ *         description: Not authorized
+ *       404:
+ *         description: User not found
  */
 router.get('/me', authenticateToken, async (req, res) => {
   try {
@@ -136,9 +206,36 @@ router.get('/me', authenticateToken, async (req, res) => {
 });
 
 /**
- * @route   PUT /api/auth/password
- * @desc    Change current user's password
- * @access  Private
+ * @swagger
+ * /api/auth/password:
+ *   put:
+ *     summary: Change current user's password
+ *     tags: [Auth]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - currentPassword
+ *               - newPassword
+ *             properties:
+ *               currentPassword:
+ *                 type: string
+ *               newPassword:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Password updated successfully
+ *       400:
+ *         description: Invalid current password
+ *       401:
+ *         description: Not authorized
+ *       404:
+ *         description: User not found
  */
 router.put('/password', authenticateToken, async (req, res) => {
   try {

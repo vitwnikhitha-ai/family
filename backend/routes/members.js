@@ -97,9 +97,46 @@ function applyPrivacyFilter(member, currentUserProfileId) {
 }
 
 /**
- * @route   GET /api/members
- * @desc    Get all family members with search, pagination, and filters
- * @access  Private
+ * @swagger
+ * /api/members:
+ *   get:
+ *     summary: Get all family members with search, pagination, and filters
+ *     tags: [Members]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: search
+ *         schema:
+ *           type: string
+ *         description: Search by name, occupation, or address
+ *       - in: query
+ *         name: gender
+ *         schema:
+ *           type: string
+ *       - in: query
+ *         name: relation
+ *         schema:
+ *           type: string
+ *       - in: query
+ *         name: maritalStatus
+ *         schema:
+ *           type: string
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *           default: 1
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *           default: 100
+ *     responses:
+ *       200:
+ *         description: List of family members
+ *       401:
+ *         description: Not authorized
  */
 router.get('/', authenticateToken, async (req, res) => {
   try {
@@ -154,9 +191,18 @@ router.get('/', authenticateToken, async (req, res) => {
 });
 
 /**
- * @route   GET /api/members/stats
- * @desc    Get dashboard stats
- * @access  Private
+ * @swagger
+ * /api/members/stats:
+ *   get:
+ *     summary: Get dashboard stats
+ *     tags: [Members]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Member statistics
+ *       401:
+ *         description: Not authorized
  */
 router.get('/stats', authenticateToken, async (req, res) => {
   try {
@@ -191,9 +237,27 @@ router.get('/stats', authenticateToken, async (req, res) => {
 });
 
 /**
- * @route   GET /api/members/:id
- * @desc    Get member details by ID (with decrypted Aadhaar)
- * @access  Private
+ * @swagger
+ * /api/members/{id}:
+ *   get:
+ *     summary: Get member details by ID
+ *     tags: [Members]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The member ID or 'root'
+ *     responses:
+ *       200:
+ *         description: Member details
+ *       400:
+ *         description: Invalid ID
+ *       404:
+ *         description: Member not found
  */
 router.get('/:id', authenticateToken, async (req, res) => {
   try {
@@ -230,9 +294,35 @@ router.get('/:id', authenticateToken, async (req, res) => {
 });
 
 /**
- * @route   POST /api/members
- * @desc    Add a new family member
- * @access  Private (Admins only)
+ * @swagger
+ * /api/members:
+ *   post:
+ *     summary: Add a new family member
+ *     tags: [Members]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - fullName
+ *             properties:
+ *               fullName:
+ *                 type: string
+ *               gender:
+ *                 type: string
+ *               relation:
+ *                 type: string
+ *     responses:
+ *       201:
+ *         description: Member created successfully
+ *       401:
+ *         description: Not authorized
+ *       403:
+ *         description: Admin access required
  */
 router.post('/', authenticateToken, requireAdmin, async (req, res) => {
   try {
@@ -337,9 +427,39 @@ router.post('/', authenticateToken, requireAdmin, async (req, res) => {
 });
 
 /**
- * @route   PUT /api/members/:id
- * @desc    Update a family member
- * @access  Private (Admins only)
+ * @swagger
+ * /api/members/{id}:
+ *   put:
+ *     summary: Update a family member
+ *     tags: [Members]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               fullName:
+ *                 type: string
+ *               gender:
+ *                 type: string
+ *               relation:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Member updated successfully
+ *       401:
+ *         description: Not authorized
+ *       403:
+ *         description: Forbidden
  */
 router.put('/:id', authenticateToken, requireAdmin, async (req, res) => {
   try {
@@ -482,9 +602,26 @@ router.put('/:id', authenticateToken, requireAdmin, async (req, res) => {
 });
 
 /**
- * @route   DELETE /api/members/:id
- * @desc    Delete a family member
- * @access  Private (Admins only)
+ * @swagger
+ * /api/members/{id}:
+ *   delete:
+ *     summary: Delete a family member
+ *     tags: [Members]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Member deleted successfully
+ *       401:
+ *         description: Not authorized
+ *       403:
+ *         description: Forbidden
  */
 router.delete('/:id', authenticateToken, requireAdmin, async (req, res) => {
   try {

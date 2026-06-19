@@ -8,6 +8,8 @@ import db from './utils/db.js';
 import authRoutes from './routes/auth.js';
 import memberRoutes from './routes/members.js';
 import documentRoutes from './routes/documents.js';
+import swaggerUi from 'swagger-ui-express';
+import { swaggerDocs } from './swagger.js';
 
 dotenv.config();
 
@@ -34,6 +36,9 @@ app.use('/uploads', express.static(uploadsDir));
 app.use('/api/auth', authRoutes);
 app.use('/api/members', memberRoutes);
 app.use('/api/documents', documentRoutes);
+
+// Swagger Documentation Route
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {

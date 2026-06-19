@@ -7,9 +7,42 @@ import { authenticateToken, requireAdmin } from '../middleware/auth.js';
 const router = express.Router();
 
 /**
- * @route   POST /api/documents
- * @desc    Upload a family document
- * @access  Private (Admins only to modify / upload files)
+ * @swagger
+ * /api/documents:
+ *   post:
+ *     summary: Upload a family document
+ *     tags: [Documents]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - title
+ *               - category
+ *               - memberId
+ *               - fileBase64
+ *             properties:
+ *               title:
+ *                 type: string
+ *               category:
+ *                 type: string
+ *               memberId:
+ *                 type: string
+ *               fileBase64:
+ *                 type: string
+ *               documentMimeType:
+ *                 type: string
+ *     responses:
+ *       201:
+ *         description: Document uploaded successfully
+ *       400:
+ *         description: Bad request
+ *       404:
+ *         description: Member not found
  */
 router.post('/', authenticateToken, requireAdmin, async (req, res) => {
   try {
@@ -45,9 +78,23 @@ router.post('/', authenticateToken, requireAdmin, async (req, res) => {
 });
 
 /**
- * @route   GET /api/documents
- * @desc    Get all documents, optionally filtered by memberId
- * @access  Private
+ * @swagger
+ * /api/documents:
+ *   get:
+ *     summary: Get all documents, optionally filtered by memberId
+ *     tags: [Documents]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: memberId
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: List of documents
+ *       401:
+ *         description: Not authorized
  */
 router.get('/', authenticateToken, async (req, res) => {
   try {
@@ -76,9 +123,28 @@ router.get('/', authenticateToken, async (req, res) => {
 });
 
 /**
- * @route   DELETE /api/documents/:id
- * @desc    Delete a document
- * @access  Private (Admins only)
+ * @swagger
+ * /api/documents/{id}:
+ *   delete:
+ *     summary: Delete a document
+ *     tags: [Documents]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Document deleted successfully
+ *       401:
+ *         description: Not authorized
+ *       403:
+ *         description: Forbidden
+ *       404:
+ *         description: Document not found
  */
 router.delete('/:id', authenticateToken, requireAdmin, async (req, res) => {
   try {
