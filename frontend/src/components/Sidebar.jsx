@@ -51,8 +51,8 @@ export default function Sidebar({ isOpen, setIsOpen }) {
         <div className="flex flex-col gap-6">
           <div className={`flex items-center ${isCollapsed ? 'justify-center' : 'justify-between'} px-2`}>
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-saas-primary to-saas-accent flex items-center justify-center text-white shadow-md shadow-saas-primary/20">
-                <Sparkles className="w-5 h-5 animate-pulse" />
+              <div className="w-10 h-10 rounded-xl overflow-hidden shadow-md shadow-saas-primary/20 flex items-center justify-center bg-white/5">
+                <img src="/c47f1eaa-908f-416d-a75d-130098af05d7.png" alt="Maddali Logo" className="w-full h-full object-cover" />
               </div>
               {!isCollapsed && (
                 <motion.div 
