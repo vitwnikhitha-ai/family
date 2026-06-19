@@ -58,7 +58,7 @@ export default function Sidebar({ isOpen, setIsOpen }) {
                 <motion.div 
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
-                  className="font-black text-sm text-saas-text-primary tracking-wider uppercase"
+                  className="font-black text-sm text-black tracking-wider uppercase"
                 >
                   Maddali
                 </motion.div>
@@ -69,7 +69,7 @@ export default function Sidebar({ isOpen, setIsOpen }) {
             {!isCollapsed && (
               <button 
                 onClick={() => setIsCollapsed(true)}
-                className="hidden lg:flex p-1.5 rounded-lg border border-saas-border hover:bg-saas-bg text-saas-text-secondary hover:text-saas-text-primary transition-all"
+                className="hidden lg:flex p-1.5 rounded-lg border border-saas-border hover:bg-saas-bg text-black/70 hover:text-black transition-all"
                 title="Collapse Sidebar"
               >
                 <ChevronLeft className="w-4 h-4" />
@@ -87,8 +87,8 @@ export default function Sidebar({ isOpen, setIsOpen }) {
                 className={({ isActive }) => `
                   w-full h-11 px-3 rounded-xl flex items-center gap-3.5 transition-all relative group
                   ${isActive 
-                    ? 'text-white font-semibold' 
-                    : 'text-saas-text-secondary hover:text-saas-text-primary hover:bg-saas-bg/50'
+                    ? 'text-black font-semibold' 
+                    : 'text-black/70 hover:text-black hover:bg-saas-bg/50'
                   }
                 `}
               >
@@ -103,7 +103,7 @@ export default function Sidebar({ isOpen, setIsOpen }) {
                       />
                     )}
                     
-                    <item.icon className={`w-5 h-5 flex-shrink-0 ${isActive ? 'text-white' : 'text-saas-text-secondary group-hover:text-saas-text-primary'}`} />
+                    <item.icon className={`w-5 h-5 flex-shrink-0 ${isActive ? 'text-black' : 'text-black/70 group-hover:text-black'}`} />
                     
                     {!isCollapsed && (
                       <motion.span 
@@ -117,7 +117,7 @@ export default function Sidebar({ isOpen, setIsOpen }) {
 
                     {/* Collapsed Tooltip */}
                     {isCollapsed && (
-                      <div className="absolute left-20 top-2.5 z-50 bg-slate-900 text-white text-[10px] font-bold tracking-wider uppercase px-2.5 py-1 rounded-md opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-200 shadow-lg whitespace-nowrap">
+                      <div className="absolute left-20 top-2.5 z-50 bg-slate-900 text-black text-[10px] font-bold tracking-wider uppercase px-2.5 py-1 rounded-md opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-200 shadow-lg whitespace-nowrap">
                         {item.name}
                       </div>
                     )}
@@ -134,7 +134,7 @@ export default function Sidebar({ isOpen, setIsOpen }) {
           {isCollapsed && (
             <button 
               onClick={() => setIsCollapsed(false)}
-              className="hidden lg:flex w-10 h-10 mx-auto items-center justify-center rounded-xl border border-saas-border hover:bg-saas-bg text-saas-text-secondary transition-all"
+              className="hidden lg:flex w-10 h-10 mx-auto items-center justify-center rounded-xl border border-saas-border hover:bg-saas-bg text-black/70 transition-all"
               title="Expand Sidebar"
             >
               <ChevronRight className="w-5 h-5" />
@@ -152,7 +152,7 @@ export default function Sidebar({ isOpen, setIsOpen }) {
               <span className="text-xs font-bold">Sign Out</span>
             )}
             {isCollapsed && (
-              <div className="absolute left-20 top-2.5 z-50 bg-slate-900 text-white text-[10px] font-bold tracking-wider uppercase px-2.5 py-1 rounded-md opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-200 shadow-lg">
+              <div className="absolute left-20 top-2.5 z-50 bg-slate-900 text-black text-[10px] font-bold tracking-wider uppercase px-2.5 py-1 rounded-md opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-200 shadow-lg">
                 Logout
               </div>
             )}

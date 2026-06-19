@@ -98,16 +98,16 @@ export default function Dashboard() {
       {/* Welcome Banner */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-black text-saas-text-primary tracking-tight">
+          <h1 className="text-3xl font-black text-black tracking-tight">
             Welcome back, <span className="text-transparent bg-clip-text bg-gradient-to-r from-saas-primary to-saas-accent">{user?.username || 'Guest'}</span>
           </h1>
-          <p className="text-saas-text-secondary text-sm mt-1">Here is a summary of your family registry and lineage visualization status.</p>
+          <p className="text-black/70 text-sm mt-1">Here is a summary of your family registry and lineage visualization status.</p>
         </div>
 
         {/* Quick Action */}
         <button 
           onClick={() => navigate('/tree')}
-          className="flex items-center gap-2 bg-saas-card border border-white/10 text-white hover:text-saas-primary font-bold text-xs px-6 py-3.5 rounded-full shadow-saas-hover transition-all cursor-pointer group"
+          className="flex items-center gap-2 bg-saas-card border border-white/10 text-black hover:text-saas-primary font-bold text-xs px-6 py-3.5 rounded-full shadow-saas-hover transition-all cursor-pointer group"
         >
           <span>Open Interactive Tree</span>
           <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -120,31 +120,31 @@ export default function Dashboard() {
         {/* Total Members */}
         <div className="bg-saas-card border border-saas-border p-6 rounded-[36px] shadow-saas-card relative overflow-hidden flex flex-col justify-between h-36 shadow-saas-hover">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-saas-text-secondary uppercase tracking-wider">Total Members</span>
+            <span className="text-xs font-bold text-black/70 uppercase tracking-wider">Total Members</span>
             <div className="w-8 h-8 rounded-lg bg-saas-primary/10 text-saas-primary flex items-center justify-center">
               <Users className="w-4.5 h-4.5" />
             </div>
           </div>
           <div className="mt-4 flex items-baseline gap-2.5">
-            <span className="text-3xl font-black text-saas-text-primary">{totalMembers}</span>
+            <span className="text-3xl font-black text-black">{totalMembers}</span>
             <span className="text-[10px] font-bold text-saas-success flex items-center gap-0.5 bg-saas-success/10 px-2 py-0.5 rounded-full">
               <TrendingUp className="w-3 h-3" />
               <span>+12%</span>
             </span>
           </div>
-          <p className="text-[10px] text-saas-text-secondary mt-1">Active registered family nodes</p>
+          <p className="text-[10px] text-black/70 mt-1">Active registered family nodes</p>
         </div>
 
         {/* Gender Distribution */}
         <div className="bg-saas-card border border-saas-border p-6 rounded-[36px] shadow-saas-card relative overflow-hidden flex flex-col justify-between h-36 shadow-saas-hover">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-saas-text-secondary uppercase tracking-wider">Gender Split</span>
+            <span className="text-xs font-bold text-black/70 uppercase tracking-wider">Gender Split</span>
             <div className="w-8 h-8 rounded-lg bg-saas-accent/10 text-saas-accent flex items-center justify-center">
               <UserPlus className="w-4.5 h-4.5" />
             </div>
           </div>
           <div className="mt-4">
-            <div className="flex justify-between text-xs font-bold text-saas-text-primary mb-1">
+            <div className="flex justify-between text-xs font-bold text-black mb-1">
               <span>M: {maleCount}</span>
               <span>F: {femaleCount}</span>
             </div>
@@ -160,37 +160,37 @@ export default function Dashboard() {
               />
             </div>
           </div>
-          <p className="text-[10px] text-saas-text-secondary">Blue: Male | Purple: Female</p>
+          <p className="text-[10px] text-black/70">Blue: Male | Purple: Female</p>
         </div>
 
         {/* Marriage Ratio */}
         <div className="bg-saas-card border border-saas-border p-6 rounded-[36px] shadow-saas-card relative overflow-hidden flex flex-col justify-between h-36 shadow-saas-hover">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-saas-text-secondary uppercase tracking-wider">Marriage Ratio</span>
+            <span className="text-xs font-bold text-black/70 uppercase tracking-wider">Marriage Ratio</span>
             <div className="w-8 h-8 rounded-lg bg-rose-500/10 text-rose-500 flex items-center justify-center">
               <Heart className="w-4.5 h-4.5 fill-rose-500/10" />
             </div>
           </div>
           <div className="mt-4 flex items-baseline gap-2.5">
-            <span className="text-3xl font-black text-saas-text-primary">{marriageRate}%</span>
-            <span className="text-[10px] font-bold text-saas-text-secondary">({marriedCount} Married)</span>
+            <span className="text-3xl font-black text-black">{marriageRate}%</span>
+            <span className="text-[10px] font-bold text-black/70">({marriedCount} Married)</span>
           </div>
-          <p className="text-[10px] text-saas-text-secondary mt-1">Of total family members list</p>
+          <p className="text-[10px] text-black/70 mt-1">Of total family members list</p>
         </div>
 
         {/* Documents Vault */}
         <div className="bg-saas-card border border-saas-border p-6 rounded-[36px] shadow-saas-card relative overflow-hidden flex flex-col justify-between h-36 shadow-saas-hover">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-saas-text-secondary uppercase tracking-wider">Vault Files</span>
+            <span className="text-xs font-bold text-black/70 uppercase tracking-wider">Vault Files</span>
             <div className="w-8 h-8 rounded-lg bg-saas-warning/10 text-saas-warning flex items-center justify-center">
               <FileText className="w-4.5 h-4.5" />
             </div>
           </div>
           <div className="mt-4 flex items-baseline gap-2.5">
-            <span className="text-3xl font-black text-saas-text-primary">0</span>
-            <span className="text-[10px] font-bold text-saas-text-secondary">Secured Certificates</span>
+            <span className="text-3xl font-black text-black">0</span>
+            <span className="text-[10px] font-bold text-black/70">Secured Certificates</span>
           </div>
-          <p className="text-[10px] text-saas-text-secondary mt-1">Aadhaar/Passports stored securely</p>
+          <p className="text-[10px] text-black/70 mt-1">Aadhaar/Passports stored securely</p>
         </div>
 
       </div>
@@ -198,13 +198,13 @@ export default function Dashboard() {
       {/* Birthdays Section Header */}
       <div className="flex items-center justify-between mb-6 mt-12">
         <div>
-          <h2 className="text-2xl font-black text-white tracking-tight flex items-center gap-3">
+          <h2 className="text-2xl font-black text-black tracking-tight flex items-center gap-3">
             <Cake className="w-6 h-6 text-saas-accent" />
             Birthdays
           </h2>
-          <p className="text-white/60 text-sm mt-1">Upcoming Family Celebrations</p>
+          <p className="text-black/60 text-sm mt-1">Upcoming Family Celebrations</p>
         </div>
-        <span className="bg-white/10 text-white font-bold text-[10px] px-3 py-1 rounded-full border border-white/10 uppercase tracking-widest">
+        <span className="bg-white/10 text-black font-bold text-[10px] px-3 py-1 rounded-full border border-white/10 uppercase tracking-widest">
           {birthdays.length} Upcoming
         </span>
       </div>
@@ -228,7 +228,7 @@ export default function Dashboard() {
                   className="w-full h-full object-cover"
                 />
               ) : (
-                <span className="font-bold text-2xl text-white/50">
+                <span className="font-bold text-2xl text-black/50">
                   {bday.name.charAt(0)}
                 </span>
               )}
@@ -236,17 +236,17 @@ export default function Dashboard() {
 
             {/* Name & Relation */}
             <div className="text-center w-full mb-4">
-              <h3 className="font-bold text-[15px] text-white tracking-wide truncate px-2" title={bday.name}>
+              <h3 className="font-bold text-[15px] text-black tracking-wide truncate px-2" title={bday.name}>
                 {bday.name}
               </h3>
-              <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-bold bg-white/10 text-white/80 border border-white/10 uppercase tracking-widest mt-1">
+              <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-bold bg-white/10 text-black/80 border border-white/10 uppercase tracking-widest mt-1">
                 {bday.relation}
               </span>
             </div>
 
             {/* Birthday Details */}
             <div className="w-full flex-grow flex flex-col items-center justify-center space-y-1 mb-4">
-              <span className="text-[15px] font-black text-white">{bday.date}</span>
+              <span className="text-[15px] font-black text-black">{bday.date}</span>
               <span className="text-[11px] font-bold text-saas-accent tracking-wider">{bday.daysLeft} Days Left</span>
             </div>
 

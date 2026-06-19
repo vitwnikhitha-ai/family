@@ -49,7 +49,7 @@ export default function Navbar() {
                 to={item.path}
                 className={({ isActive }) => `
                   relative h-full flex items-center justify-center transition-all text-[15px] font-bold tracking-wide
-                  ${isActive ? 'text-cyan-400' : 'text-white/80 hover:text-white'}
+                  ${isActive ? 'text-cyan-400' : 'text-black/80 hover:text-black'}
                 `}
               >
                 {({ isActive }) => (
@@ -72,7 +72,7 @@ export default function Navbar() {
           <div className="flex items-center ml-2 mr-1">
             <button
               onClick={logout}
-              className="px-6 py-2 bg-saas-card border border-white/10 hover:border-white/30 transition-all rounded-full text-white font-bold text-[14px] shadow-saas-hover"
+              className="px-6 py-2 bg-saas-card border border-white/10 hover:border-white/30 transition-all rounded-full text-black font-bold text-[14px] shadow-saas-hover"
             >
               Sign Out
             </button>
@@ -90,12 +90,12 @@ export default function Navbar() {
                 to={item.path}
                 className={({ isActive }) => `
                   relative h-[48px] flex-1 flex flex-col items-center justify-center transition-all rounded-full group
-                  ${isActive ? 'bg-white/10 text-cyan-400 shadow-[inset_0_0_15px_rgba(255,255,255,0.05),0_0_15px_rgba(34,211,238,0.2)]' : 'text-white/60 hover:text-white hover:bg-white/5'}
+                  ${isActive ? 'bg-white/10 text-cyan-400 shadow-[inset_0_0_15px_rgba(255,255,255,0.05),0_0_15px_rgba(34,211,238,0.2)]' : 'text-black/60 hover:text-black hover:bg-white/5'}
                 `}
               >
                 {({ isActive }) => (
                   <>
-                    <item.icon className={`w-[22px] h-[22px] mb-0.5 ${isActive ? 'text-cyan-400' : 'text-white/60'}`} />
+                    <item.icon className={`w-[22px] h-[22px] mb-0.5 ${isActive ? 'text-cyan-400' : 'text-black/60'}`} />
                     <span className="text-[9px] font-bold tracking-widest uppercase mt-0.5">{item.name}</span>
                     {isActive && (
                       <motion.div 
@@ -112,7 +112,7 @@ export default function Navbar() {
             {/* Hamburger Button */}
             <button 
               onClick={() => setIsMobileMenuOpen(true)}
-              className="relative h-[48px] w-[48px] flex-shrink-0 flex items-center justify-center transition-all rounded-full bg-white/5 border border-white/10 text-white/80 hover:text-white hover:bg-white/10 shadow-[0_0_10px_rgba(255,255,255,0.05)] ml-1"
+              className="relative h-[48px] w-[48px] flex-shrink-0 flex items-center justify-center transition-all rounded-full bg-white/5 border border-white/10 text-black/80 hover:text-black hover:bg-white/10 shadow-[0_0_10px_rgba(255,255,255,0.05)] ml-1"
             >
               <Menu className="w-5 h-5" />
             </button>
@@ -142,10 +142,10 @@ export default function Navbar() {
               className="mobile-nav fixed bottom-0 left-0 right-0 z-[10001] bg-[#1a1b26]/90 backdrop-blur-3xl border-t border-white/10 rounded-t-[32px] p-6 shadow-[0_-10px_40px_rgba(0,0,0,0.3)] pb-8"
             >
               <div className="flex justify-between items-center mb-6">
-                <h3 className="text-xl font-black text-white tracking-tight">More Options</h3>
+                <h3 className="text-xl font-black text-black tracking-tight">More Options</h3>
                 <button 
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="w-8 h-8 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
+                  className="w-8 h-8 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-black transition-colors"
                 >
                   <X className="w-4 h-4" />
                 </button>
@@ -157,7 +157,7 @@ export default function Navbar() {
                     key={item.name}
                     to={item.path}
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className="flex items-center gap-4 p-4 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all text-white font-bold"
+                    className="flex items-center gap-4 p-4 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all text-black font-bold"
                   >
                     <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-cyan-400">
                       <item.icon className="w-5 h-5" />
