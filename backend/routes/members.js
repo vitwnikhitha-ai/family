@@ -2,7 +2,6 @@ import express from 'express';
 import db from '../utils/db.js';
 import { authenticateToken, requireAdmin } from '../middleware/auth.js';
 import { encrypt, decrypt } from '../utils/encryption.js';
-import upload, { uploadToCloud } from '../utils/upload.js';
 
 const router = express.Router();
 
@@ -235,7 +234,7 @@ router.get('/:id', authenticateToken, async (req, res) => {
  * @desc    Add a new family member
  * @access  Private (Admins only)
  */
-router.post('/', authenticateToken, requireAdmin, upload.single('profilePhoto'), async (req, res) => {
+router.post('/', authenticateToken, requireAdmin, async (req, res) => {
   try {
     const memberData = { ...req.body };
     
@@ -253,9 +252,9 @@ router.post('/', authenticateToken, requireAdmin, upload.single('profilePhoto'),
       occupation: req.body.privacySettings_occupation || 'Public'
     };
     
-    // Handle image upload
-    if (req.file) {
-      memberData.profilePhoto = await uploadToCloud(req.file);
+    // Handle image upload (base64)
+    if (req.body.profilePhoto) {
+      memberData.profilePhoto = req.body.profilePhoto;
     }
 
     // Set nullable references and extract IDs if objects are passed
@@ -342,7 +341,7 @@ router.post('/', authenticateToken, requireAdmin, upload.single('profilePhoto'),
  * @desc    Update a family member
  * @access  Private (Admins only)
  */
-router.put('/:id', authenticateToken, requireAdmin, upload.single('profilePhoto'), async (req, res) => {
+router.put('/:id', authenticateToken, requireAdmin, async (req, res) => {
   try {
     const memberId = req.params.id;
     const existingMember = await db.Member.findById(memberId);
@@ -369,9 +368,9 @@ router.put('/:id', authenticateToken, requireAdmin, upload.single('profilePhoto'
       occupation: req.body.privacySettings_occupation || (existingMember.privacySettings && existingMember.privacySettings.occupation) || 'Public'
     };
     
-    // File upload updates
-    if (req.file) {
-      updates.profilePhoto = await uploadToCloud(req.file);
+    // File upload updates (base64)
+    if (req.body.profilePhoto) {
+      updates.profilePhoto = req.body.profilePhoto;
     }
 
     updates.father = (updates.father && updates.father._id) ? updates.father._id : (updates.father || null);

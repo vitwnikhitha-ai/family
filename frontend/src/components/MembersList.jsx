@@ -140,7 +140,7 @@ export default function MembersList() {
               occupation: privacy.occupation === 'Private'
             });
 
-            setPhotoPreview(data.profilePhoto ? (data.profilePhoto.startsWith('/uploads/') ? `http://localhost:5000${data.profilePhoto}` : data.profilePhoto) : '');
+            setPhotoPreview(data.profilePhoto ? (data.profilePhoto.startsWith('/uploads/') ? `${import.meta.env.MODE === 'production' ? '' : 'http://localhost:5000'}${data.profilePhoto}` : data.profilePhoto) : '');
             setCustomFields(data.customFields || []);
           }
         } catch (e) {
@@ -186,8 +186,12 @@ export default function MembersList() {
   const handlePhotoChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setFormPhoto(file);
-      setPhotoPreview(URL.createObjectURL(file));
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFormPhoto(reader.result); // Base64 string
+        setPhotoPreview(reader.result);
+      };
+      reader.readAsDataURL(file);
     }
   };
 
@@ -203,26 +207,20 @@ export default function MembersList() {
         throw new Error('Aadhaar number must be exactly 12 digits');
       }
 
-      const bodyData = new FormData();
-      Object.keys(formData).forEach(key => {
-        if (key === 'children') {
-          bodyData.append(key, JSON.stringify(formData[key]));
-        } else {
-          bodyData.append(key, formData[key] || '');
-        }
-      });
+      // Use JSON instead of FormData for Base64 support
+      const bodyData = {
+        ...formData,
+        privacySettings_dateOfBirth: privacySettings.dateOfBirth ? 'Private' : 'Public',
+        privacySettings_phoneNumber: privacySettings.phoneNumber ? 'Private' : 'Public',
+        privacySettings_aadhaarNumber: privacySettings.aadhaarNumber ? 'Private' : 'Public',
+        privacySettings_address: privacySettings.address ? 'Private' : 'Public',
+        privacySettings_occupation: privacySettings.occupation ? 'Private' : 'Public',
+        customFields: JSON.stringify(customFields.filter(f => f.key.trim() && f.value.trim())),
+      };
 
       if (formPhoto) {
-        bodyData.append('profilePhoto', formPhoto);
+        bodyData.profilePhoto = formPhoto; // Send base64 string directly
       }
-
-      // Append privacy settings
-      bodyData.append('privacySettings_dateOfBirth', privacySettings.dateOfBirth ? 'Private' : 'Public');
-      bodyData.append('privacySettings_phoneNumber', privacySettings.phoneNumber ? 'Private' : 'Public');
-      bodyData.append('privacySettings_aadhaarNumber', privacySettings.aadhaarNumber ? 'Private' : 'Public');
-      bodyData.append('privacySettings_address', privacySettings.address ? 'Private' : 'Public');
-      bodyData.append('privacySettings_occupation', privacySettings.occupation ? 'Private' : 'Public');
-      bodyData.append('customFields', JSON.stringify(customFields.filter(f => f.key.trim() && f.value.trim())));
 
       const isEdit = actionParam === 'edit';
       const url = isEdit ? `${API_URL}/members/${editIdParam}` : `${API_URL}/members`;
@@ -230,8 +228,11 @@ export default function MembersList() {
 
       const response = await fetch(url, {
         method,
-        headers: { 'Authorization': `Bearer ${token}` },
-        body: bodyData
+        headers: { 
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(bodyData)
       });
 
       const data = await response.json();

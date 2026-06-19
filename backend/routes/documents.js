@@ -3,7 +3,6 @@ import path from 'path';
 import fs from 'fs';
 import db from '../utils/db.js';
 import { authenticateToken, requireAdmin } from '../middleware/auth.js';
-import upload, { uploadToCloud } from '../utils/upload.js';
 
 const router = express.Router();
 
@@ -12,36 +11,30 @@ const router = express.Router();
  * @desc    Upload a family document
  * @access  Private (Admins only to modify / upload files)
  */
-router.post('/', authenticateToken, requireAdmin, upload.single('file'), async (req, res) => {
+router.post('/', authenticateToken, requireAdmin, async (req, res) => {
   try {
-    const { title, category, memberId } = req.body;
+    const { title, category, memberId, fileBase64, documentMimeType } = req.body;
 
-    if (!req.file) {
+    if (!fileBase64) {
       return res.status(400).json({ message: 'No file uploaded.' });
     }
 
     if (!title || !category || !memberId) {
-      // Clean up uploaded file if request is invalid
-      fs.unlink(req.file.path, () => {});
       return res.status(400).json({ message: 'Title, category, and memberId are required fields.' });
     }
 
     // Verify member exists
     const member = await db.Member.findById(memberId);
     if (!member) {
-      fs.unlink(req.file.path, () => {});
       return res.status(404).json({ message: 'Linked family member not found.' });
     }
-
-    // Upload to cloud (or local path fallback)
-    const fileUrl = await uploadToCloud(req.file);
 
     const newDocument = await db.Document.create({
       title,
       category,
       memberId,
-      fileUrl,
-      fileType: req.file.mimetype
+      fileUrl: fileBase64,
+      fileType: documentMimeType || 'application/octet-stream'
     });
 
     res.status(201).json(newDocument);

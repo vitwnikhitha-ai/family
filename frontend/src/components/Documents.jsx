@@ -179,7 +179,7 @@ export default function Documents() {
                 
                 <div className="flex items-center gap-1.5">
                   <a 
-                    href={doc.fileUrl.startsWith('/uploads/') ? `http://localhost:5000${doc.fileUrl}` : doc.fileUrl}
+                    href={doc.fileUrl.startsWith('/uploads/') ? `${import.meta.env.MODE === 'production' ? '' : 'http://localhost:5000'}${doc.fileUrl}` : doc.fileUrl}
                     target="_blank"
                     rel="noreferrer"
                     className="flex items-center gap-1.5 px-3 py-1.5 bg-primary-50 text-primary-700 hover:bg-primary-100 text-xs font-semibold rounded-lg transition-colors"

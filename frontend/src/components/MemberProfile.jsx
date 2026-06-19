@@ -99,33 +99,46 @@ export default function MemberProfile() {
     if (!docFile || !docName.trim()) return;
 
     setUploadingDoc(true);
-    const formData = new FormData();
-    formData.append('document', docFile);
-    formData.append('name', docName);
-    formData.append('memberId', memberId);
 
-    try {
-      const response = await fetch(`${API_URL}/documents`, {
-        method: 'POST',
-        headers: { 'Authorization': `Bearer ${token}` },
-        body: formData
-      });
-      if (response.ok) {
-        const newDoc = await response.json();
-        setDocuments(prev => [...prev, newDoc]);
-        setDocFile(null);
-        setDocName('');
-        // Reset file input
-        e.target.reset();
-      } else {
-        alert('Failed to upload document.');
+    const reader = new FileReader();
+    reader.onloadend = async () => {
+      const base64Data = reader.result;
+
+      try {
+        const response = await fetch(`${API_URL}/documents`, {
+          method: 'POST',
+          headers: { 
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            documentMimeType: docFile.type,
+            name: docName,
+            title: docName, // API expects 'title'
+            category: 'Other', // default
+            memberId: memberId,
+            fileBase64: base64Data
+          })
+        });
+        
+        if (response.ok) {
+          const newDoc = await response.json();
+          setDocuments(prev => [...prev, newDoc]);
+          setDocFile(null);
+          setDocName('');
+          // Reset file input
+          e.target.reset();
+        } else {
+          alert('Failed to upload document.');
+        }
+      } catch (err) {
+        console.error(err);
+        alert('Upload network error.');
+      } finally {
+        setUploadingDoc(false);
       }
-    } catch (err) {
-      console.error(err);
-      alert('Upload network error.');
-    } finally {
-      setUploadingDoc(false);
-    }
+    };
+    reader.readAsDataURL(docFile);
   };
 
   const handleDocDelete = async (docId) => {
@@ -477,7 +490,7 @@ export default function MemberProfile() {
 
                     <div className="flex items-center gap-2">
                       <a 
-                        href={`http://localhost:5000${doc.filePath}`} 
+                        href={doc.fileUrl || doc.filePath} 
                         target="_blank" 
                         rel="noreferrer"
                         className="text-[9px] font-bold text-saas-primary bg-saas-primary/10 px-2.5 py-1 rounded-md"
