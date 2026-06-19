@@ -78,12 +78,14 @@ export default function Dashboard() {
       }
       const diffTime = Math.abs(nextBday - today);
       const daysLeft = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-      
+      const ageThisYear = nextBday.getFullYear() - dob.getFullYear();
+
       return {
         name: m.fullName,
         date: dob.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
         relation: m.computedRelation || m.relation,
         daysLeft,
+        ageThisYear,
         member: m
       };
     })
@@ -247,7 +249,10 @@ export default function Dashboard() {
             {/* Birthday Details */}
             <div className="w-full flex-grow flex flex-col items-center justify-center space-y-1 mb-4">
               <span className="text-[15px] font-black text-black">{bday.date}</span>
-              <span className="text-[11px] font-bold text-saas-accent tracking-wider">{bday.daysLeft} Days Left</span>
+              <div className="flex items-center gap-1">
+                <span className="text-[11px] font-bold text-saas-accent tracking-wider">{bday.daysLeft} Days Left</span>
+                <span className="text-[10px] font-bold text-black/50 uppercase tracking-wider">(Turning {bday.ageThisYear})</span>
+              </div>
             </div>
 
           </div>

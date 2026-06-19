@@ -25,6 +25,18 @@ import { useAuth, API_URL } from '../context/AuthContext';
 import { calculateRelation } from '../utils/relationCalculator';
 import getProfileImage from '../utils/getProfileImage';
 
+const calculateAge = (dateString) => {
+  if (!dateString) return null;
+  const today = new Date();
+  const birthDate = new Date(dateString);
+  let age = today.getFullYear() - birthDate.getFullYear();
+  const m = today.getMonth() - birthDate.getMonth();
+  if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+    age--;
+  }
+  return age;
+};
+
 export default function MembersList() {
   const { token, isAdmin, user } = useAuth();
   const navigate = useNavigate();
@@ -468,10 +480,10 @@ export default function MembersList() {
                     {member.isDobPrivate ? (
                       <div className="flex items-center gap-1.5 overflow-hidden">
                         <Lock className={`w-3.5 h-3.5 flex-shrink-0 ${member._id === user?.memberProfile ? 'text-white/70' : 'text-white/30'}`} />
-                        <span className="italic truncate">{member._id === user?.memberProfile ? (member.dateOfBirth ? new Date(member.dateOfBirth).toLocaleDateString() : '-') : 'Hidden'}</span>
+                        <span className="italic truncate">{member._id === user?.memberProfile ? (member.dateOfBirth ? `${new Date(member.dateOfBirth).toLocaleDateString()} (Age: ${calculateAge(member.dateOfBirth)})` : '-') : 'Hidden'}</span>
                       </div>
                     ) : (
-                      <span className="truncate font-medium">{member.dateOfBirth ? new Date(member.dateOfBirth).toLocaleDateString() : '-'}</span>
+                      <span className="truncate font-medium">{member.dateOfBirth ? `${new Date(member.dateOfBirth).toLocaleDateString()} (Age: ${calculateAge(member.dateOfBirth)})` : '-'}</span>
                     )}
                   </div>
 
