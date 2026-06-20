@@ -208,7 +208,7 @@ export default function BirthdayWidget() {
             transition={{ boxShadow: { repeat: Infinity, duration: 2, ease: "easeInOut" } }}
             style={{
               width: '200px', height: '65px', padding: '0px 0px',
-              backgroundColor: 'rgba(26,27,38,0.95)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)',
+              backgroundColor: isToday ? 'rgba(255,255,255,0.12)' : 'rgba(255,255,255,0.08)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)',
               border: `1px solid ${isToday ? 'rgba(250,204,21,0.5)' : isSoon ? 'rgba(34,211,238,0.5)' : 'rgba(255,255,255,0.15)'}`, 
               borderRadius: '16px', overflow: 'hidden'
             }}
