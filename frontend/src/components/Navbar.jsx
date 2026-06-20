@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
 import { Home, Users, Network, Menu, User, Settings, LogOut, X } from 'lucide-react';
+import BirthdayWidget from './BirthdayWidget';
 
 export default function Navbar() {
   const { logout } = useAuth();
@@ -184,6 +185,7 @@ export default function Navbar() {
           </>
         )}
       </AnimatePresence>
+      <BirthdayWidget />
     </>
   );
 }
