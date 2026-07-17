@@ -1,0 +1,145 @@
+{
+  "users": [
+    {
+      "_id": "444b8610dfb9561ca1d218e3",
+      "createdAt": "2026-07-17T18:53:26.847Z",
+      "updatedAt": "2026-07-17T18:53:26.847Z",
+      "username": "nikhil",
+      "password": "$2a$10$t/ubHXVmv7cCxBfQRDJXzuTKrYxKipZG/svuejo5qUMvbdb4WTb4G",
+      "role": "Admin",
+      "memberProfile": "13201d37c931e5a9af83bab9"
+    },
+    {
+      "_id": "d9b623448e5cf68849cc5bb5",
+      "createdAt": "2026-07-17T18:53:26.850Z",
+      "updatedAt": "2026-07-17T18:53:26.850Z",
+      "username": "nageswararao",
+      "password": "$2a$10$t/ubHXVmv7cCxBfQRDJXzuKk1T4ww/covRHbtJGd7p6qD9HwOO5rS",
+      "role": "Admin",
+      "memberProfile": "2d3477c0965a0aa7ea6374f0"
+    },
+    {
+      "_id": "301b1e57ea22889308a8b96e",
+      "createdAt": "2026-07-17T18:53:26.852Z",
+      "updatedAt": "2026-07-17T18:53:26.852Z",
+      "username": "swarnakumari",
+      "password": "$2a$10$t/ubHXVmv7cCxBfQRDJXzub68dttWvpxoyHLlwAHQDkmplnjDbfUe",
+      "role": "Admin",
+      "memberProfile": "1d72a32a7a1a94b6fd6d8d01"
+    },
+    {
+      "_id": "916085782f57374ba81d26fa",
+      "createdAt": "2026-07-17T18:53:26.855Z",
+      "updatedAt": "2026-07-17T18:53:26.855Z",
+      "username": "nikhitha",
+      "password": "$2a$10$t/ubHXVmv7cCxBfQRDJXzut0/v/D4XHuB.9Ci0TMv7qooSAMY9u92",
+      "role": "Admin",
+      "memberProfile": "c722fd2f8697cb055f0a0463"
+    },
+    {
+      "_id": "abc91bb0a19748e01fd02389",
+      "createdAt": "2026-07-17T18:53:26.857Z",
+      "updatedAt": "2026-07-17T18:56:52.766Z",
+      "username": "praveen",
+      "password": "$2a$10$zswqWg9KDZYFq0eZE2T16OiLD0cOIHVx3CVsn6s1bL1.SftJR/Qou",
+      "role": "Admin",
+      "memberProfile": "ffa24acf0bc9bc44fbda10be"
+    }
+  ],
+  "members": [
+    {
+      "_id": "2d3477c0965a0aa7ea6374f0",
+      "createdAt": "2026-07-17T18:53:26.326Z",
+      "updatedAt": "2026-07-17T18:53:26.347Z",
+      "fullName": "Nageswararao",
+      "relation": "Father",
+      "gender": "Male",
+      "dateOfBirth": "1978-10-24",
+      "phoneNumber": "9848022338",
+      "aadhaarNumber": "459a3a813ea63baef70522b48f154d5a:4176cb90d609f25db341c7fa454e438f",
+      "address": "Nageswararao House, Hyderabad",
+      "occupation": "Business Owner",
+      "maritalStatus": "Married",
+      "profilePhoto": null,
+      "spouse": "1d72a32a7a1a94b6fd6d8d01",
+      "children": [
+        "c722fd2f8697cb055f0a0463",
+        "ffa24acf0bc9bc44fbda10be",
+        "13201d37c931e5a9af83bab9"
+      ]
+    },
+    {
+      "_id": "1d72a32a7a1a94b6fd6d8d01",
+      "createdAt": "2026-07-17T18:53:26.329Z",
+      "updatedAt": "2026-07-17T18:53:26.869Z",
+      "fullName": "Swarna Kumari",
+      "relation": "Mother",
+      "gender": "Female",
+      "dateOfBirth": "1982-08-22",
+      "phoneNumber": "9848022339",
+      "aadhaarNumber": "0cbbba1c1c9bee58ba50fccea31607c0:ec07567df7eb4ca726dc4b1fdb486610",
+      "address": "Nageswararao House, Hyderabad",
+      "occupation": "Homemaker",
+      "maritalStatus": "Married",
+      "profilePhoto": "/swarna kumari.jpeg",
+      "spouse": "2d3477c0965a0aa7ea6374f0",
+      "children": [
+        "c722fd2f8697cb055f0a0463",
+        "ffa24acf0bc9bc44fbda10be",
+        "13201d37c931e5a9af83bab9"
+      ]
+    },
+    {
+      "_id": "c722fd2f8697cb055f0a0463",
+      "createdAt": "2026-07-17T18:53:26.337Z",
+      "updatedAt": "2026-07-17T18:53:26.863Z",
+      "fullName": "Nikhitha",
+      "relation": "Sister",
+      "gender": "Female",
+      "dateOfBirth": "2005-03-28",
+      "phoneNumber": "9966554433",
+      "aadhaarNumber": "d1a6b21418790aba5d8bf007cb7cd55d:26b1405d6353dffe7b503ec879beb19d",
+      "address": "Nageswararao House, Hyderabad",
+      "occupation": "Software Engineer",
+      "maritalStatus": "Single",
+      "father": "2d3477c0965a0aa7ea6374f0",
+      "mother": "1d72a32a7a1a94b6fd6d8d01",
+      "profilePhoto": "/nikhiltha.jpeg"
+    },
+    {
+      "_id": "ffa24acf0bc9bc44fbda10be",
+      "createdAt": "2026-07-17T18:53:26.340Z",
+      "updatedAt": "2026-07-17T18:53:26.866Z",
+      "fullName": "Praveen",
+      "relation": "Brother",
+      "gender": "Male",
+      "dateOfBirth": "2008-07-18",
+      "phoneNumber": "8877665544",
+      "aadhaarNumber": "5ab132a3f5ee03667cd4611f23506b35:dfb999bece5d25e41299e270bc565b3c",
+      "address": "Nageswararao House, Hyderabad",
+      "occupation": "Student",
+      "maritalStatus": "Single",
+      "father": "2d3477c0965a0aa7ea6374f0",
+      "mother": "1d72a32a7a1a94b6fd6d8d01",
+      "profilePhoto": "/praveen.jpeg"
+    },
+    {
+      "_id": "13201d37c931e5a9af83bab9",
+      "createdAt": "2026-07-17T18:53:26.342Z",
+      "updatedAt": "2026-07-17T18:53:26.861Z",
+      "fullName": "Nikhil",
+      "relation": "Self",
+      "gender": "Male",
+      "dateOfBirth": "2003-01-24",
+      "phoneNumber": "9000111222",
+      "aadhaarNumber": "7c54ad91b48e296e30e810ba26f7e685:fbd5ca4d987828b3cf8b5535d2c4aec3",
+      "address": "Nageswararao House, Hyderabad",
+      "occupation": "Software Developer",
+      "maritalStatus": "Single",
+      "father": "2d3477c0965a0aa7ea6374f0",
+      "mother": "1d72a32a7a1a94b6fd6d8d01",
+      "profilePhoto": "/nikhil.jpeg"
+    }
+  ],
+  "documents": []
+}
