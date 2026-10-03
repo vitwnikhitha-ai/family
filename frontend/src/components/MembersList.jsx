@@ -24,18 +24,7 @@ import {
 import { useAuth, API_URL } from '../context/AuthContext';
 import { calculateRelation } from '../utils/relationCalculator';
 import getProfileImage from '../utils/getProfileImage';
-
-const calculateAge = (dateString) => {
-  if (!dateString) return null;
-  const today = new Date();
-  const birthDate = new Date(dateString);
-  let age = today.getFullYear() - birthDate.getFullYear();
-  const m = today.getMonth() - birthDate.getMonth();
-  if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-    age--;
-  }
-  return age;
-};
+import { formatDate, calculateAge, parseDate } from '../utils/dateUtils';
 
 export default function MembersList() {
   const { token, isAdmin, user } = useAuth();
@@ -131,7 +120,7 @@ export default function MembersList() {
               fullName: data.fullName || '',
               relation: data.relation || 'Self',
               gender: data.gender || 'Male',
-              dateOfBirth: data.dateOfBirth ? new Date(data.dateOfBirth).toISOString().substring(0, 10) : '',
+              dateOfBirth: data.dateOfBirth ? (typeof data.dateOfBirth === 'string' && data.dateOfBirth.length >= 10 ? data.dateOfBirth.substring(0, 10) : new Date(data.dateOfBirth).toISOString().substring(0, 10)) : '',
               phoneNumber: data.phoneNumber || '',
               aadhaarNumber: data.aadhaarNumber || '',
               address: data.address || '',
@@ -480,10 +469,10 @@ export default function MembersList() {
                     {member.isDobPrivate ? (
                       <div className="flex items-center gap-1.5 overflow-hidden">
                         <Lock className={`w-3.5 h-3.5 flex-shrink-0 ${member._id === user?.memberProfile ? 'text-white/70' : 'text-white/30'}`} />
-                        <span className="italic truncate">{member._id === user?.memberProfile ? (member.dateOfBirth ? `${new Date(member.dateOfBirth).toLocaleDateString()} (Age: ${calculateAge(member.dateOfBirth)})` : '-') : 'Hidden'}</span>
+                        <span className="italic truncate">{member._id === user?.memberProfile ? (member.dateOfBirth ? `${formatDate(member.dateOfBirth)} (Age: ${calculateAge(member.dateOfBirth)})` : '-') : 'Hidden'}</span>
                       </div>
                     ) : (
-                      <span className="truncate font-medium">{member.dateOfBirth ? `${new Date(member.dateOfBirth).toLocaleDateString()} (Age: ${calculateAge(member.dateOfBirth)})` : '-'}</span>
+                      <span className="truncate font-medium">{member.dateOfBirth ? `${formatDate(member.dateOfBirth)} (Age: ${calculateAge(member.dateOfBirth)})` : '-'}</span>
                     )}
                   </div>
 

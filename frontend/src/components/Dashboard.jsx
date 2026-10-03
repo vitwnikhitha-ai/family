@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import { useAuth, API_URL } from '../context/AuthContext';
 import { calculateRelation } from '../utils/relationCalculator';
+import { getUpcomingBirthdays } from '../utils/dateUtils';
 import MemberProfile from './MemberProfile';
 import getProfileImage from '../utils/getProfileImage';
 
@@ -63,34 +64,7 @@ export default function Dashboard() {
 
 
   // Dynamic upcoming birthdays calculation
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-
-  const birthdays = members
-    .filter(m => m.dateOfBirth && !m.isDobPrivate)
-    .map(m => {
-      const dob = new Date(m.dateOfBirth);
-      // Create next birthday date
-      const nextBday = new Date(today.getFullYear(), dob.getMonth(), dob.getDate());
-      // If birthday already passed this year, set it to next year
-      if (nextBday < today) {
-        nextBday.setFullYear(today.getFullYear() + 1);
-      }
-      const diffTime = Math.abs(nextBday - today);
-      const daysLeft = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-      const ageThisYear = nextBday.getFullYear() - dob.getFullYear();
-
-      return {
-        name: m.fullName,
-        date: dob.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
-        relation: m.computedRelation || m.relation,
-        daysLeft,
-        ageThisYear,
-        member: m
-      };
-    })
-    .sort((a, b) => a.daysLeft - b.daysLeft)
-    .slice(0, 5);
+  const birthdays = getUpcomingBirthdays(members, 5);
 
 
 

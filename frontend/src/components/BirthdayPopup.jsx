@@ -2,12 +2,13 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Sparkles, Gift, Calendar, Heart, PartyPopper, Stars } from 'lucide-react';
 import getProfileImage from '../utils/getProfileImage';
+import { parseDate, formatShortDate } from '../utils/dateUtils';
 
 export default function BirthdayPopup({ nearestBday, onClose }) {
   if (!nearestBday) return null;
 
-  const dob = new Date(nearestBday.dateOfBirth);
-  const age = new Date().getFullYear() - dob.getFullYear();
+  const dob = parseDate(nearestBday.dateOfBirth);
+  const age = dob ? new Date().getFullYear() - dob.getFullYear() : 0;
   
   // Custom Confetti Component using framer-motion
   const Confetti = () => {
@@ -152,7 +153,7 @@ export default function BirthdayPopup({ nearestBday, onClose }) {
         <div style={{ display: 'flex', gap: '24px', marginBottom: '32px', zIndex: 10 }}>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
             <Calendar size={24} color="#7C4DFF" />
-            <span style={{ color: 'white', fontWeight: 'bold', fontSize: '15px' }}>{nearestBday.dobStr.split(',')[0]}</span>
+            <span style={{ color: 'white', fontWeight: 'bold', fontSize: '15px' }}>{nearestBday.dobStr ? nearestBday.dobStr.split(',')[0] : formatShortDate(nearestBday.dateOfBirth)}</span>
           </div>
           <div style={{ width: '1px', backgroundColor: 'rgba(255,255,255,0.2)' }} />
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>

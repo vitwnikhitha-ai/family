@@ -1,3 +1,5 @@
+import { parseDate } from './dateUtils';
+
 function inferCrossRelation(currentRelRaw, targetRelRaw, targetGender, targetDob, currentDob) {
   const currentRel = currentRelRaw?.toLowerCase() || '';
   const targetRel = targetRelRaw?.toLowerCase() || '';
@@ -79,8 +81,8 @@ export function calculateRelation(targetMember, allMembers, currentUserProfileId
     if (!member) return 'Unknown';
     if (!currentUser || !currentUser.relation) return member.relation || 'Relative';
     
-    const targetDob = member.dateOfBirth ? new Date(member.dateOfBirth) : null;
-    const currentDob = currentUser.dateOfBirth ? new Date(currentUser.dateOfBirth) : null;
+    const targetDob = member.dateOfBirth ? parseDate(member.dateOfBirth) : null;
+    const currentDob = currentUser.dateOfBirth ? parseDate(currentUser.dateOfBirth) : null;
     
     return inferCrossRelation(
       currentUser.relation, 
@@ -127,8 +129,8 @@ export function calculateRelation(targetMember, allMembers, currentUserProfileId
   const sharesMother = currMotherId && targetMotherId && currMotherId === targetMotherId;
   
   if (sharesFather || sharesMother) {
-    const currentDob = new Date(currentUser.dateOfBirth);
-    const targetDob = new Date(targetMember.dateOfBirth);
+    const currentDob = parseDate(currentUser.dateOfBirth);
+    const targetDob = parseDate(targetMember.dateOfBirth);
     const isElder = targetDob < currentDob;
     
     if (targetMember.gender === 'Male') {

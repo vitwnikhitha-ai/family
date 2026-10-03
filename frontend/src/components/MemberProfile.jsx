@@ -26,6 +26,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth, API_URL } from '../context/AuthContext';
 import { calculateRelation } from '../utils/relationCalculator';
 import getProfileImage from '../utils/getProfileImage';
+import { formatDate } from '../utils/dateUtils';
 
 export default function MemberProfile() {
   const { id } = useParams();
@@ -347,7 +348,7 @@ export default function MemberProfile() {
                 <div>
                   <span className="text-[9px] font-bold text-black/70 uppercase tracking-wider">Date of Birth</span>
                   <p className="font-extrabold text-xs text-black mt-1">
-                    {member.isDobPrivate && !isOwner ? 'Hidden (Private)' : (member.dateOfBirth ? new Date(member.dateOfBirth).toLocaleDateString() : 'N/A')}
+                    {member.isDobPrivate && !isOwner ? 'Hidden (Private)' : (member.dateOfBirth ? formatDate(member.dateOfBirth) : 'N/A')}
                   </p>
                 </div>
               </div>

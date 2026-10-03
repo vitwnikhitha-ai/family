@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useLocation } from 'react-router-dom';
 import { useAuth, API_URL } from '../context/AuthContext';
 import getProfileImage from '../utils/getProfileImage';
+import { getUpcomingBirthdays } from '../utils/dateUtils';
 import MemberProfile from './MemberProfile';
 import BirthdayPopup from './BirthdayPopup';
 import { Cake } from 'lucide-react';
@@ -63,31 +64,7 @@ export default function BirthdayWidget() {
   useEffect(() => {
     if (members.length === 0) return;
 
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-
-    const birthdays = members
-      .filter(m => m.dateOfBirth && !m.isDobPrivate)
-      .map(m => {
-        const dob = new Date(m.dateOfBirth);
-        const nextBday = new Date(today.getFullYear(), dob.getMonth(), dob.getDate());
-        
-        if (nextBday < today) {
-          nextBday.setFullYear(today.getFullYear() + 1);
-        }
-        
-        const diffTime = nextBday.getTime() - today.getTime();
-        const daysLeft = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-        
-        return {
-          ...m,
-          daysLeft,
-          nextBdayDate: nextBday,
-          dobStr: dob.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
-        };
-      })
-      .sort((a, b) => a.daysLeft - b.daysLeft);
-
+    const birthdays = getUpcomingBirthdays(members, 10);
     if (birthdays.length > 0) {
       setNearestBday(birthdays[0]);
     }
