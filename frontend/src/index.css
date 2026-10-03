@@ -59,7 +59,7 @@
 /* Base resets */
 body {
   background-color: #020205;
-  background-image: url('/image.png');
+  background-image: url('/image.webp');
   background-attachment: fixed;
   background-size: cover;
   background-position: center;
@@ -70,7 +70,7 @@ body {
 
 @media (min-width: 768px) {
   body {
-    background-image: url('/54bebf72-4891-4e30-867a-aa5d59df130c.png');
+    background-image: url('/54bebf72-4891-4e30-867a-aa5d59df130c.webp');
   }
 }
 

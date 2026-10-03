@@ -224,10 +224,11 @@ try {
 
 // Ensure live database is patched with the frontend public photos
 try {
-  await db.Member.updateMany({ fullName: 'Nikhil' }, { $set: { profilePhoto: '/nikhil.jpeg' } });
-  await db.Member.updateMany({ fullName: 'Nikhitha' }, { $set: { profilePhoto: '/nikhiltha.jpeg' } });
-  await db.Member.updateMany({ fullName: 'Praveen' }, { $set: { profilePhoto: '/praveen.jpeg' } });
-  await db.Member.updateMany({ fullName: 'Swarna Kumari' }, { $set: { profilePhoto: '/swarna kumari.jpeg' } });
+  await db.Member.updateMany({ fullName: 'Nikhil' }, { $set: { profilePhoto: '/nikhil.webp' } });
+  await db.Member.updateMany({ fullName: 'Nikhitha' }, { $set: { profilePhoto: '/nikhiltha.webp' } });
+  await db.Member.updateMany({ fullName: 'Praveen' }, { $set: { profilePhoto: '/praveen.webp' } });
+  await db.Member.updateMany({ fullName: 'Swarna Kumari' }, { $set: { profilePhoto: '/swarna kumari.webp' } });
+  await db.Member.updateMany({ fullName: 'Nageswararao' }, { $set: { profilePhoto: '/nageswarao.webp' } });
 } catch (photoError) {
   console.error('Error patching photos:', photoError.message);
 }

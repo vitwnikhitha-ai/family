@@ -81,7 +81,7 @@
       "address": "Nageswararao House, Hyderabad",
       "occupation": "Homemaker",
       "maritalStatus": "Married",
-      "profilePhoto": "/swarna kumari.jpeg",
+      "profilePhoto": "/swarna kumari.webp",
       "spouse": "2d3477c0965a0aa7ea6374f0",
       "children": [
         "c722fd2f8697cb055f0a0463",
@@ -104,7 +104,7 @@
       "maritalStatus": "Single",
       "father": "2d3477c0965a0aa7ea6374f0",
       "mother": "1d72a32a7a1a94b6fd6d8d01",
-      "profilePhoto": "/nikhiltha.jpeg"
+      "profilePhoto": "/nikhiltha.webp"
     },
     {
       "_id": "ffa24acf0bc9bc44fbda10be",
@@ -121,7 +121,7 @@
       "maritalStatus": "Single",
       "father": "2d3477c0965a0aa7ea6374f0",
       "mother": "1d72a32a7a1a94b6fd6d8d01",
-      "profilePhoto": "/praveen.jpeg"
+      "profilePhoto": "/praveen.webp"
     },
     {
       "_id": "13201d37c931e5a9af83bab9",
@@ -138,7 +138,7 @@
       "maritalStatus": "Single",
       "father": "2d3477c0965a0aa7ea6374f0",
       "mother": "1d72a32a7a1a94b6fd6d8d01",
-      "profilePhoto": "/nikhil.jpeg"
+      "profilePhoto": "/nikhil.webp"
     }
   ],
   "documents": []

@@ -12,6 +12,7 @@
     "client": "npm run dev --prefix frontend"
   },
   "devDependencies": {
-    "concurrently": "^8.2.2"
+    "concurrently": "^8.2.2",
+    "sharp": "^0.35.5"
   }
 }
